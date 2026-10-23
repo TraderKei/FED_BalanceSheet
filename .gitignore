@@ -1,1 +1,7 @@
 auto-push.log
+
+data/raw/
+__pycache__/
+*.pyc
+data/server-*.log
+*.tmp
