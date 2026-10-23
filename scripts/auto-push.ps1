@@ -32,9 +32,9 @@ function Sync-Repository {
         throw "origin/$branch is $behind commit(s) ahead. Resolve or pull before automatic push."
     }
 
-    $dirty = @(Invoke-Git @('status', '--porcelain', '--untracked-files=all'))
+    $dirty = @(Invoke-Git @('status', '--porcelain', '--untracked-files=no'))
     if ($dirty.Count -gt 0) {
-        Invoke-Git @('add', '-A') | Out-Null
+        Invoke-Git @('add', '-u') | Out-Null
         $staged = @(Invoke-Git @('diff', '--cached', '--name-only'))
         if ($staged.Count -gt 0) {
             $message = 'chore: auto-sync local changes ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
