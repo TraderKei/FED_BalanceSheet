@@ -578,6 +578,6 @@ Codex는 다음 순서로 첫 실행 가능한 화면을 만든다.
 
 ## 15. 로컬 변경 자동 푸시
 
-`FED_BalanceSheet_AutoPush` Windows 작업은 로그인 시 [`scripts/auto-push.ps1`](scripts/auto-push.ps1)을 실행하도록 설계됐다. 파일 변경이 10초 동안 멈추면 Git이 이미 추적하는 수정·삭제 파일과 사용자가 직접 스테이징한 새 파일을 커밋해 `origin/main`에 푸시한다. 스테이징하지 않은 새 파일은 자동 업로드하지 않는다. 연결 오류가 나면 60초 뒤 다시 시도하며, 실행 기록은 Git에서 제외한 `auto-push.log`에 남긴다. 원격 브랜치에 새 커밋이 있으면 자동 병합이나 강제 푸시를 하지 않고 로그에 오류를 기록한다.
+`FED_BalanceSheet_AutoPush` Windows 작업은 로그인 시 [`scripts/auto-push.ps1`](scripts/auto-push.ps1)을 실행한다. 파일 변경이 10초 동안 멈추면 Git이 이미 추적하는 수정·삭제 파일과 사용자가 직접 스테이징한 새 파일을 커밋해 `origin/main`에 푸시한다. 스테이징하지 않은 새 파일은 자동 업로드하지 않는다. 연결 오류가 나면 60초 뒤 다시 시도하며, 실행 기록은 Git에서 제외한 `auto-push.log`에 남긴다. 원격 브랜치에 새 커밋이 있으면 자동 병합이나 강제 푸시를 하지 않고 로그에 오류를 기록한다.
 
 작업이 실행 중인 경우에만 변경 직후 동기화되며, Windows에서 로그아웃한 동안의 변경은 다음 로그인 후 처리한다. 일회성 수동 실행: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/auto-push.ps1 -Once`.
