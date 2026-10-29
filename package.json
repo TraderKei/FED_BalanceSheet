@@ -1,0 +1,11 @@
+{
+  "name": "fed-balance-sheet-html",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vue 3.2.41 dashboard using official Federal Reserve and New York Fed data, with CheckExpert themes and Korean / English translations",
+  "scripts": {
+    "test": "node --test tests/calculations.test.cjs",
+    "check": "node --check assets/app.js && node --check assets/data.js && node --check assets/i18n.js",
+    "test:browser": "node tests/browser.cjs"
+  }
+}

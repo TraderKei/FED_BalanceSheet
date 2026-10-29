@@ -1,0 +1,3 @@
+@echo off
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\run-python.ps1" -Mode ingest
+pause

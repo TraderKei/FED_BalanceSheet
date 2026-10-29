@@ -1,0 +1,137 @@
+{
+  "rowCount": 683,
+  "startDate": "2013-09-25",
+  "endDate": "2026-10-21",
+  "duplicateDates": 0,
+  "netLiquidityMissingDates": [
+    "2013-12-25",
+    "2014-01-01",
+    "2015-11-11",
+    "2018-07-04",
+    "2018-12-05",
+    "2019-12-25",
+    "2020-01-01",
+    "2020-11-11",
+    "2024-06-19",
+    "2024-12-25",
+    "2025-01-01"
+  ],
+  "missingByField": {
+    "totalAssets": 0,
+    "treasuryGeneralAccount": 0,
+    "treasurySecurities": 0,
+    "mortgageBackedSecurities": 0,
+    "reserveBalances": 0,
+    "agencyDebt": 0,
+    "loans": 0,
+    "assetRepurchaseAgreements": 0,
+    "centralBankLiquiditySwaps": 0,
+    "unamortizedPremiums": 0,
+    "unamortizedDiscounts": 0,
+    "msFacilitiesNetPortfolio": 0,
+    "primaryCredit": 0,
+    "otherCreditExtensions": 0,
+    "securitiesHeldOutright": 0,
+    "reverseRepoTotal": 0,
+    "reverseRepoForeignOfficial": 0,
+    "reverseRepoOthers": 0,
+    "currencyInCirculation": 0,
+    "federalReserveNotes": 0,
+    "totalCapital": 0,
+    "totalLiabilities": 0,
+    "totalLiabilitiesAndCapital": 0,
+    "foreignOfficialDeposits": 0,
+    "otherDeposits": 0,
+    "termDeposits": 0,
+    "deferredAvailability": 0,
+    "otherLiabilitiesAccrued": 0,
+    "bills": 0,
+    "nominalNotesBonds": 0,
+    "tipsPrincipal": 0,
+    "inflationCompensation": 0,
+    "goldCertificate": 0,
+    "sdrCertificate": 0,
+    "coin": 0,
+    "itemsInCollection": 0,
+    "bankPremises": 0,
+    "foreignCurrencyAssets": 0,
+    "otherAssetsReported": 0,
+    "onRrp": 11,
+    "netLiquidity": 11
+  },
+  "bridgesValidated": 2579,
+  "roundingToleranceMillions": 5,
+  "latestAssetDifferenceMillions": 0,
+  "latestLiabilityDifferenceMillions": -1,
+  "latestTreasuryDifferenceMillions": -1,
+  "onRrpVsH41OthersDifferences": [
+    {
+      "date": "2014-12-10",
+      "differenceMillions": -50000.0
+    },
+    {
+      "date": "2014-12-17",
+      "differenceMillions": -100000.0
+    },
+    {
+      "date": "2014-12-24",
+      "differenceMillions": -149500.0
+    },
+    {
+      "date": "2014-12-31",
+      "differenceMillions": -225585.0
+    },
+    {
+      "date": "2015-02-18",
+      "differenceMillions": -10000.0
+    },
+    {
+      "date": "2015-02-25",
+      "differenceMillions": -30000.0
+    },
+    {
+      "date": "2015-03-04",
+      "differenceMillions": -50000.0
+    },
+    {
+      "date": "2015-03-11",
+      "differenceMillions": -50000.0
+    },
+    {
+      "date": "2015-03-25",
+      "differenceMillions": -75000.0
+    },
+    {
+      "date": "2015-04-01",
+      "differenceMillions": -176255.0
+    },
+    {
+      "date": "2015-07-01",
+      "differenceMillions": -100000.0
+    },
+    {
+      "date": "2015-09-30",
+      "differenceMillions": -250000.0
+    },
+    {
+      "date": "2017-05-17",
+      "differenceMillions": -112.0
+    },
+    {
+      "date": "2018-11-28",
+      "differenceMillions": -95.0
+    },
+    {
+      "date": "2019-05-15",
+      "differenceMillions": -102.0
+    },
+    {
+      "date": "2019-11-20",
+      "differenceMillions": -71.0
+    }
+  ],
+  "assetBreakdownUnavailableBefore": "2013-09-25",
+  "filteredOperations": {
+    "nonReverseRepo": 2167
+  }
+}

@@ -1,0 +1,87 @@
+/* Color tokens copied from C:/Program Files/KOSCOM/CheckExpert/wwwroot/css/layout.css */
+body{
+	--red :#fd3c46;
+	--blue :#2864fd;
+	--gray :#7b8288;
+	--black :#242424;
+	--green :#43a6c1;
+	--koscom : #ed6d1e;
+	--e :#eee;
+	--d :#ddd;
+	--bg :#fff;
+	--bg2 :#eff2f7;
+	--bg3 :#eff2f7;
+	--white :#fff;
+	--primary :#3899fa;
+	--border :#dee0ea;
+	--border2 :#a3a3a3;
+
+	--focus :#D3E3FD; 
+
+	--b84 :#84b0dd;
+	--a3 :#a3a3a3;
+	--c1 :#c1c1c1;
+	--c2 :#c1c1c1;
+	--hover :#edf6ff;
+	--e6 :#e6e8f2;
+	--a9 :#9a9ea2;
+	--ffd :#ffd179;
+
+	--f7b :#234f7b;
+	--f7f : #F7F7F9; 
+	--fa:#fafafa;
+
+	--d4 :#d4dade;
+	--d5: #9ca1b5;
+	--def: #EDF6FF; 
+	--ff8 :#ff8e0a;
+	--b8: #7B8288;
+	--black2: #000;
+	--f8: #F8F8F8;
+	--d50 :#4D504D;
+	--lightgray: #EFEFEF;
+	--af0: #FFFAF0;
+
+	--newbg:#d00058;
+	--newcolor:#fff;
+
+	--scroll-horver :#84b1dd70; 
+	--scroll-thumb : rgb(128,172,238, 0.7); 
+}
+body.dark{
+	--bg:#18222c;
+	--e:#41454b;
+	--black :#e6e6e6;
+	--d :#41454b;
+	--f7b :#3899fa;
+	--e6 : #000;
+	--border :#2e333c;
+	--border2 :#313c46;
+
+	--c2 :#3c454b;
+	--bg2 :#41454b;
+	--bg3 :#273039;
+	--fa : rgb(65 69 75 / 30%);
+	--white :#273039;
+	--hover :#2a4058;
+	--b84 :#2d5a88;
+	
+	background:#101010;
+
+	--d4 :#3c454b;
+	
+	--d5 :#9ca1b5;
+	
+	--def: #4c6c8b; 
+
+	--f7f : #1b1b1b; 
+	--b8: #e2f1fd; 
+	--black2: #fff;
+	--f8: #2E2E2E;
+	--d50: #b1b9b1;
+	--lightgray: #3b3b3b;
+	--af0: #494439;
+
+	--newbg:#ff6d91;
+	--newcolor:#1b1b1b;
+}
