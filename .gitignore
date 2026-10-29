@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 data/server-*.log
 *.tmp
+tests/*.png
