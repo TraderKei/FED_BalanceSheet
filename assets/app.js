@@ -9,7 +9,7 @@
   const signed=(v,digits=1)=>finite(v)?(v>0?'+':v<0?'−':'')+money(Math.abs(v),'B',digits===1&&Math.abs(v)>0&&Math.abs(v)<100?3:digits):'N/A';
   const pct=(v,base)=>{const p=D.percent(v,base);return p===null?'N/A':(p>0?'+':p<0?'−':'')+number(Math.abs(p),2)+'%';};
   const TimeChart={
-    props:{rows:Array,allRows:Array,field:String,label:String,lang:String,color:{default:'var(--primary)'},height:{default:180},stacked:Boolean,zoomable:Boolean},
+    props:{rows:Array,allRows:Array,field:String,label:String,lang:String,color:{default:'var(--primary)'},height:{default:180},stacked:Boolean,zoomable:Boolean,crosshair:Boolean},
     emits:['zoom'],
     setup(props,{emit}){
       const host=ref(null),width=ref(700),hover=ref(-1),drag=ref(null);let observer;
@@ -60,7 +60,7 @@
         <template v-else><path :d="area" :fill="color" opacity=".06"/><path :d="path" fill="none" :stroke="color" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/></template>
         <g v-for="tick in dateTicks" :key="tick.x"><text class="chart-label" :x="tick.x" :y="height-6" :text-anchor="tick.x===left?'start':tick.x===width-right?'end':'middle'">{{tick.text}}</text></g>
         <rect v-if="drag && drag.start!==drag.end" :x="Math.min(x(drag.start),x(drag.end))" y="20" :width="Math.abs(x(drag.end)-x(drag.start))" :height="plotBottom-20" fill="var(--primary)" opacity=".16" pointer-events="none"/>
-        <g v-if="active"><line :x1="x(hover)" :x2="x(hover)" y1="20" :y2="plotBottom" stroke="var(--muted)" stroke-dasharray="3 3"/><circle v-if="finite(active[field])" :cx="x(hover)" :cy="y(active[field])" r="3.5" :fill="color" stroke="var(--bg)" stroke-width="2"/></g>
+        <g v-if="active"><line v-if="crosshair && finite(active[field])" :x1="left" :x2="width-right" :y1="y(active[field])" :y2="y(active[field])" stroke="var(--muted)" stroke-dasharray="3 3"/><line :x1="x(hover)" :x2="x(hover)" y1="20" :y2="plotBottom" stroke="var(--muted)" stroke-dasharray="3 3"/><circle v-if="finite(active[field])" :cx="x(hover)" :cy="y(active[field])" r="3.5" :fill="color" stroke="var(--bg)" stroke-width="2"/></g>
       </svg>
       <div v-if="active" class="chart-tooltip" :style="tooltipStyle" aria-live="polite"><span>{{active.date}} · {{t('actual')}}</span><strong>{{label}} {{money(active[field],'B',2)}}</strong><template v-if="stacked"><div v-for="s in stackPaths" :key="s.key" class="tooltip-row"><span>{{t(s.key==='mortgageBackedSecurities'?'mbsShort':s.key)}}</span><span>{{money(active[s.key],'B',1)}} · {{finite(active[s.key])&&active.totalAssets?(active[s.key]/active.totalAssets*100).toFixed(1)+'%':'N/A'}}</span></div></template><span v-else>{{t('wow')}} {{signed(previous&&finite(previous[field])&&finite(active[field])?active[field]-previous[field]:null,2)}}</span></div>
     </div>`
