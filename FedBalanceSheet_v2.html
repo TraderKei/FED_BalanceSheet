@@ -9,21 +9,36 @@
   <link rel="stylesheet" href="assets/theme-tokens.css">
   <link rel="stylesheet" href="assets/dashboard.css">
   <style>
-    .v2-topbar{display:grid;grid-template-columns:minmax(190px,1fr) auto minmax(320px,1.25fr);align-items:center;gap:20px;min-height:112px}
-    .v2-topbar .brand{justify-self:start}
+    .v2-topbar{display:grid;grid-template-columns:minmax(190px,1fr) auto minmax(320px,1.25fr);align-items:center;gap:20px;min-height:76px;padding-top:7px;padding-bottom:7px}
+    .v2-topbar .brand{justify-self:start;font-size:18px;line-height:1.2}
+    .v2-topbar .brand small{font-size:10px;margin-top:1px}
     .v2-topbar .brandmark{border-bottom:3px solid #9eb8ff;flex-shrink:0;width:30px;height:30px;position:relative;display:block}
     .v2-topbar .brandmark::before{content:"";border-bottom:7px solid #9eb8ff;border-left:14px solid #0000;border-right:14px solid #0000;position:absolute;top:1px;left:0}
     .v2-topbar .brandmark::after{content:"";background:repeating-linear-gradient(90deg,#9eb8ff 0 3px,#0000 3px 7px);border-top:2px solid #9eb8ff;width:20px;height:13px;position:absolute;top:11px;left:4px}
     .v2-topbar .header-actions{justify-self:center}
     .header-context{justify-self:end;max-width:610px;min-width:0;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-    .header-source-note{color:var(--muted);font-size:10px;line-height:1.4}
-    .header-source-links{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:2px 12px}
-    .header-source-links a{color:var(--muted);font-size:9px}
-    .header-meta{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:3px 13px;color:var(--muted);font-size:10px}
+    .header-source-note{color:var(--muted);font-size:11px;line-height:1.4}
+    .header-meta{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:3px 13px;color:var(--muted);font-size:11px}
     .header-meta strong{color:var(--black);font-weight:500}
+    main{padding-top:12px}
+    body{font-size:14px}
+    .panel-heading h2{font-size:17px}
+    .segmented button{font-size:12px;min-height:29px}
+    .text-button,.table-button{font-size:12px}
+    small,.label,.subtle,.badge,.english-label,.section-index{font-size:12px}
+    .main-kpi strong{font-size:38px}
+    .kpi strong,.reserve-level strong,.metric-line>strong,.submetric{font-size:27px}
+    .bridge-item strong{font-size:26px}
+    .chart-label{font-size:12px}
+    .chart-unit,.chart-bottom,.footnote,.period-row,.reconciliation,.driver-footer,.driver-heading>span,.small-multiples h3 span{font-size:12px}
+    .chart-tooltip,.driver-row,.expanded-drivers>div,.stress-list>div,.balance-columns td,.balance-columns th,.mix-legend span,.cross-status small,.funding small,.pulse-summary p,.source-details td,.source-details th{font-size:12px}
+    .bridge-label,.driver-impact>span,.small-multiples h3,.balance-columns h3,.funding,.source-details{font-size:13px}
+    .bridge-item small,.mix-legend small,.driver-impact small{font-size:11px}
+    .dot,.mini-dot{width:7px;height:7px}
+    .swatch{width:9px;height:9px}
     .v2-footer{justify-content:flex-end}
     @media(max-width:1100px){.v2-topbar{grid-template-columns:minmax(180px,1fr) auto;gap:12px}.v2-topbar .header-actions{justify-self:end}.header-context{grid-column:1/-1;justify-self:end}}
-    @media(max-width:767px){.v2-topbar{display:flex;flex-wrap:wrap;gap:10px;min-height:0}.v2-topbar .brand{flex:1 1 100%}.v2-topbar .header-actions{width:auto;justify-content:center;margin:auto}.header-context{width:100%;align-items:flex-start;text-align:left}.header-source-links,.header-meta{justify-content:flex-start}}
+    @media(max-width:767px){.v2-topbar{display:flex;flex-wrap:wrap;gap:8px;min-height:0;padding-top:8px;padding-bottom:8px}.v2-topbar .brand{flex:1 1 100%}.v2-topbar .header-actions{width:auto;justify-content:center;margin:auto}.header-context{width:100%;align-items:flex-start;text-align:left}.header-meta{justify-content:flex-start}.main-kpi strong{font-size:36px}.kpi strong{font-size:22px}.bridge-item strong{font-size:23px}.chart-label{font-size:11px}}
   </style>
   <script defer src="assets/vendor/vue-3.2.41.global.prod.js"></script>
   <script defer src="assets/i18n.js"></script>
@@ -40,13 +55,9 @@
       <div class="segmented" :aria-label="t('theme')"><button @click="setTheme('dark')" :aria-pressed="theme==='dark'" :class="{active:theme==='dark'}">◐ <span>{{ t('dark') }}</span></button><button @click="setTheme('light')" :aria-pressed="theme==='light'" :class="{active:theme==='light'}">☼ <span>{{ t('light') }}</span></button></div>
       <div class="segmented" :aria-label="t('language')"><button @click="setLang('ko')" :aria-pressed="lang==='ko'" :class="{active:lang==='ko'}">한글</button><button @click="setLang('en')" :aria-pressed="lang==='en'" :class="{active:lang==='en'}">EN</button></div>
     </div>
-    <div class="header-context"><div class="header-source-note">{{ t('sourceNote') }}</div><div class="header-source-links"><a :href="meta.sourceUrl" target="_blank" rel="noopener">Board of Governors of the Federal Reserve System, H.4.1 ↗</a><a href="https://www.newyorkfed.org/markets/desk-operations/reverse-repo" target="_blank" rel="noopener">New York Fed · ON RRP ↗</a></div><div class="header-meta"><span><span class="dot"></span>{{ t('weekly') }}</span><strong>{{ t('asOf') }} {{ latest.date }}</strong><span>{{ t('release') }} {{ meta.releaseDate }}</span></div></div>
+    <div class="header-context"><div class="header-source-note">{{ t('sourceNote') }}</div><div class="header-meta"><span><span class="dot"></span>{{ t('weekly') }}</span><strong>{{ t('asOf') }} {{ latest.date }}</strong><span>{{ t('release') }} {{ meta.releaseDate }}</span></div></div>
   </header>
   <main id="main">
-    <div class="mock-banner actual-banner"><span class="badge neutral">{{ t('actual') }}</span><span>{{ t('actualNote') }}</span><span class="banner-tail">{{ t('updated') }} {{ checkedAt }}</span></div>
-    <div v-if="!onlineMode" class="connection-note">{{ t('fileModeNote') }}</div>
-    <div v-if="previewMode" class="state-banner">{{ t('previewOnly') }}</div>
-    <div v-if="['stale','error','partial'].includes(state)" class="state-banner" role="status"><strong>ⓘ {{ t(state) }}</strong><span v-if="state!=='partial'">{{ t('updated') }}: {{ checkedAt }} · {{ t('observation') }}: {{ latest.date }} · {{ t('expected') }}: {{ t('expectedValue') }}</span><button v-if="state==='error'" @click="refresh">{{ t('retry') }}</button></div>
     <div v-if="state==='loading'" class="loading-layout" role="status" :aria-label="t('loading')"><span>{{ t('loading') }}</span><div class="skeleton hero-skeleton"></div><div class="skeleton bridge-skeleton"></div><div class="two-col"><div class="skeleton cause-skeleton"></div><div class="skeleton cause-skeleton"></div></div></div>
     <section v-else-if="state==='empty'" class="panel empty-panel"><span class="empty-icon">∅</span><h2>{{ t('empty') }}</h2><button class="primary-button" @click="reset">{{ t('reset') }}</button></section>
     <template v-else>
