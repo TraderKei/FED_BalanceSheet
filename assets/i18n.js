@@ -24,6 +24,8 @@
     ['bridgeNote','수식상의 변화 기여도이며 실제 시장 자금 유입액을 의미하지 않습니다.','Arithmetic contributions, not actual flows into financial markets.'],
     ['totalAssets','총자산','Total assets'],['treasuryGeneralAccount','재무부 일반계정 · TGA','Treasury General Account · TGA'],['onRrp','익일물 역레포 · ON RRP','Overnight reverse repos · ON RRP'],
     ['tgaShort','TGA','TGA'],['rrpShort','ON RRP','ON RRP'],['netChange','순유동성 변화','Net liquidity change'],
+    ['tgaDefinition','TGA(재무부 일반계정)는 미국 재무부가 연준에 보유하는 현금 계정의 잔액입니다. 이 화면의 순유동성 산식에서는 총자산에서 차감합니다.','TGA (Treasury General Account) is the U.S. Treasury’s cash balance held at the Federal Reserve. This dashboard subtracts it from total assets in the net liquidity proxy.'],
+    ['onRrpDefinition','ON RRP는 뉴욕 연은의 익일물 역레포 거래에서 받아들인 자금 규모입니다. 이 화면의 순유동성 산식에서는 총자산에서 차감합니다.','ON RRP is the amount accepted in the New York Fed’s overnight reverse repo operations. This dashboard subtracts it from total assets in the net liquidity proxy.'],
     ['contribution','순유동성 기여','Net liquidity contribution'],['increase','증가 기여','Positive contribution'],['decrease','감소 기여','Negative contribution'],['unchanged','변화 없음','Unchanged'],
     ['reconciled','대사 일치','Reconciled'],['mismatch','대사 차이','Reconciliation difference'],
     ['drivers','총자산 내부 변동','Within total assets'],['expand','세부 항목 펼치기','Expand details'],['collapse','접기','Collapse'],
