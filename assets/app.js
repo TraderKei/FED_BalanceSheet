@@ -155,7 +155,7 @@
     const driverWidth=v=>finite(v)?Math.abs(v)/Math.max(1,...bridge.value.drivers.map(d=>Math.abs(d.value)))*100:0;
     const group=key=>['treasurySecurities','mortgageBackedSecurities','agencyDebt'].includes(key)?'securities':['loans','assetRepurchaseAgreements','centralBankLiquiditySwaps'].includes(key)?'credit':'accounting';
     function setPeriod(w){period.value=String(w);endDate.value=latest.value.date;startDate.value=D.iso(Date.parse(endDate.value)-w*7*86400000);draftStart.value=startDate.value;draftEnd.value=endDate.value;dateError.value=false;}
-    function applyDates(){dateError.value=!(draftStart.value<draftEnd.value&&[draftStart.value,draftEnd.value].every(d=>availableDates.value.includes(d)));if(!dateError.value){startDate.value=draftStart.value;endDate.value=draftEnd.value;period.value='custom';}}
+    function applyDates(){const selectable=document.body.dataset.dashboardVersion==='v2'?availableDates.value:rows.value.map(r=>r.date);dateError.value=!(draftStart.value<draftEnd.value&&[draftStart.value,draftEnd.value].every(d=>selectable.includes(d)));if(!dateError.value){startDate.value=draftStart.value;endDate.value=draftEnd.value;period.value='custom';}}
     async function refresh(){
       if(state.value==='loading')return;
       state.value='loading';
