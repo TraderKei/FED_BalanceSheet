@@ -17,6 +17,7 @@
     ['6m','6개월','6M'],['1y','1년','1Y'],['2y','2년','2Y'],['5y','5년','5Y'],['max','전체','Max'],
     ['range','차트 기간','Chart range'],['period','기여도 기간','Contribution period'],['custom','직접 선택','Custom'],
     ['start','시작일','Start date'],['end','종료일','End date'],['apply','적용','Apply'],
+    ['chartInvalidDates','시작일보다 늦은 종료일을 선택하고 주간 관측치가 2개 이상 포함되도록 해주세요.','Select an end date after the start date and include at least two weekly observations.'],
     ['pick','차트에서 두 날짜 선택','Pick two chart dates'],['pickHint','차트에서 시작일과 종료일을 차례로 선택하세요. 방향키와 Enter로도 선택할 수 있습니다.','Choose a start and end on the chart. Arrow keys and Enter also work.'],
     ['invalidDates','시작일 이전의 종료일은 선택할 수 없습니다. 두 날짜 모두 수요일 관측일이어야 합니다.','End must follow start. Both dates must be observed Wednesdays.'],
     ['bridge','같은 기간 순유동성 변화 기여도','Same-period change bridge'],

@@ -71,7 +71,7 @@
   const app=createApp({components:{TimeChart},setup(){
     const lang=ref(storage.get('lang','ko')),theme=ref(storage.get('theme','dark'));
     const snapshot=ref(D.snapshot),meta=computed(()=>snapshot.value?.meta||{}),quality=computed(()=>snapshot.value?.quality||{});
-    const rows=ref(D.history),range=ref('2y'),zoom=ref(null),period=ref('1'),state=ref(D.snapshotState(D.snapshot)),notice=ref('');
+    const rows=ref(D.history),range=ref('2y'),zoom=ref(null),chartCustomRange=ref(null),chartDraftStart=ref(''),chartDraftEnd=ref(''),chartDateError=ref(false),period=ref('1'),state=ref(D.snapshotState(D.snapshot)),notice=ref('');
     const onlineMode=location.protocol==='http:'||location.protocol==='https:',previewMode=new URLSearchParams(location.search).has('preview');
     const sourcesOpen=ref(false),finite=D.finite,tableNumber=value=>finite(value)?number(value/1000,1):'N/A';
     const latest=computed(()=>rows.value.at(-1)||{}),ranges=['6m','1y','2y','5y','max'],stateOptions=['ready','loading','partial','stale','error','empty'];
@@ -82,9 +82,11 @@
     function setLang(value){lang.value=value;document.documentElement.lang=value;document.title=document.body.dataset.dashboardVersion==='v2'?t('v2Title'):t('title')+' | FED Balance Sheet';storage.set('lang',value);}
     function setTheme(value){theme.value=value;document.body.classList.toggle('dark',value==='dark');storage.set('theme',value);}
     setLang(['ko','en'].includes(lang.value)?lang.value:'ko');setTheme(['dark','light'].includes(theme.value)?theme.value:'dark');
-    const visibleRows=computed(()=>{const weeks={'6m':26,'1y':52,'2y':104,'5y':260};return range.value==='max'?rows.value:rows.value.slice(-(weeks[range.value]+1));});
+    const visibleRows=computed(()=>{const weeks={'6m':26,'1y':52,'2y':104,'5y':260};return range.value==='max'?rows.value:range.value==='custom'&&chartCustomRange.value?rows.value.filter(r=>r.date>=chartCustomRange.value.start&&r.date<=chartCustomRange.value.end):rows.value.slice(-(weeks[range.value]??104)-1);});
     const chartRows=computed(()=>zoom.value?visibleRows.value.filter(r=>r.date>=zoom.value.start&&r.date<=zoom.value.end):visibleRows.value);
-    function setRange(value){range.value=value;zoom.value=null;}
+    function setRange(value){range.value=value;zoom.value=null;chartDateError.value=false;}
+    function selectChartCustom(){const current=chartRows.value;chartDraftStart.value=current[0]?.date||rows.value[0]?.date||'';chartDraftEnd.value=current.at(-1)?.date||latest.value.date||'';chartCustomRange.value={start:chartDraftStart.value,end:chartDraftEnd.value};setRange('custom');}
+    function applyChartDates(){const selected=rows.value.filter(r=>r.date>=chartDraftStart.value&&r.date<=chartDraftEnd.value);chartDateError.value=!(chartDraftStart.value<chartDraftEnd.value&&selected.length>=2);if(!chartDateError.value){chartCustomRange.value={start:chartDraftStart.value,end:chartDraftEnd.value};zoom.value=null;}}
     function zoomChart(dates){zoom.value=dates;}
     function resetZoom(){zoom.value=null;}
     const baseline=w=>rows.value.find(r=>r.date===D.iso(Date.parse(latest.value.date)-w*7*86400000));
@@ -140,7 +142,7 @@
     function closeOnBackdrop(event){if(event.target===translationDialog.value){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTranslations();}}
     onMounted(async()=>{if(onlineMode){try{const next=await D.getSnapshot();snapshot.value=next;rows.value=next.history;state.value=D.snapshotState(next);setPeriod(1);}catch{state.value=rows.value.length?'error':'empty';}}});
     onBeforeUnmount(()=>{clearTimeout(timer);});
-    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,range,ranges,zoom,chartRows,setRange,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
+    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
   }});
   app.mount('#app');
 })();
