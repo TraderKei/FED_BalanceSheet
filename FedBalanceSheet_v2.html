@@ -161,7 +161,7 @@
               <div class="reserve-check-content">
                 <p>{{ t('reserveCheckMethod') }}</p>
                 <div class="reserve-check-table-scroll" tabindex="0" :aria-label="t('reserveCheckGuide')">
-                  <table><caption>{{ startDate }} → {{ endDate }} · USD billions</caption><thead><tr><th scope="col">{{ t('key') }}</th><th scope="col">{{ t('reserveCheckStart') }}</th><th scope="col">{{ t('reserveCheckEnd') }}</th><th scope="col">{{ t('reserveCheckChange') }}</th></tr></thead><tbody><tr v-for="item in reserveCheckItems" :key="item.key"><th scope="row">{{ t(item.key) }}</th><td>{{ money(item.start,'B',3) }}</td><td>{{ money(item.end,'B',3) }}</td><td>{{ signed(item.change,3) }}</td></tr></tbody></table>
+                  <table><caption>{{ startDate }} → {{ endDate }} · USD billions</caption><thead><tr><th scope="col">{{ t('reserveCheckItem') }}</th><th scope="col">{{ t('reserveCheckStart') }}</th><th scope="col">{{ t('reserveCheckEnd') }}</th><th scope="col">{{ t('reserveCheckChange') }}</th></tr></thead><tbody><tr v-for="item in reserveCheckItems" :key="item.key"><th scope="row">{{ t(item.key) }}</th><td>{{ money(item.start,'B',3) }}</td><td>{{ money(item.end,'B',3) }}</td><td>{{ signed(item.change,3) }}</td></tr></tbody></table>
                 </div>
                 <p>{{ t('reserveCheckDefinition') }}</p>
                 <p>{{ t('reserveCheckInterpretation') }}</p>

@@ -41,7 +41,7 @@
     ['funding','자금조달 여건','Funding conditions'],['notConnected','데이터 미연결','Not connected'],['fundingNote','SOFR−IORB · EFFR−IORB · 상설 레포 이용액','SOFR−IORB · EFFR−IORB · Standing repo usage'],
     ['reserveCheckGuide','통화·해외기관 역레포·기타 부채 확인 방법','How to check currency, foreign-official RRP and other liabilities'],
     ['reserveCheckMethod','01패널에서 선택한 같은 시작·종료 수요일의 잔액과 증감을 비교합니다.','Compare balances and changes for the same start and end Wednesdays selected in panel 01.'],
-    ['reserveCheckStart','시작 잔액','Start balance'],['reserveCheckEnd','종료 잔액','End balance'],['reserveCheckChange','증감','Change'],
+    ['reserveCheckItem','항목','Item'],['reserveCheckStart','시작 잔액','Start balance'],['reserveCheckEnd','종료 잔액','End balance'],['reserveCheckChange','증감','Change'],
     ['reserveCheckDefinition','통화는 대차대조표 요약과 같은 연준권 순액(연준은행 보유분 제외)입니다. 기타 부채는 해외 공식기관·기타 예금, 정기예금, 이연 가용성 항목, 기타 부채·미지급 배당금의 합계입니다.','Currency uses Federal Reserve notes net of Reserve Bank holdings, as in the balance sheet summary. Other liabilities combine foreign-official and other deposits, term deposits, deferred availability cash items, and other liabilities and accrued dividends.'],
     ['reserveCheckInterpretation','다른 항목이 일정할 때 이 항목들의 증가는 지급준비금을 줄이는 방향, 감소는 늘리는 방향으로 작용합니다.','With other items held constant, increases in these items reduce reserve balances; decreases increase them.'],
     ['reserveCheckReconcile','차이가 남으면 자본과 H.4.1 기타 역레포−ON RRP 차이도 확인합니다. 해외기관 역레포는 FIMA Repo와 다른 부채 항목입니다.','If a gap remains, also check capital and the difference between H.4.1 other reverse repos and ON RRP. Foreign-official reverse repos are a liability distinct from FIMA Repo.'],

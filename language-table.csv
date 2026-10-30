@@ -84,6 +84,7 @@
 "fundingNote","SOFR−IORB · EFFR−IORB · 상설 레포 이용액","SOFR−IORB · EFFR−IORB · Standing repo usage"
 "reserveCheckGuide","통화·해외기관 역레포·기타 부채 확인 방법","How to check currency, foreign-official RRP and other liabilities"
 "reserveCheckMethod","01패널에서 선택한 같은 시작·종료 수요일의 잔액과 증감을 비교합니다.","Compare balances and changes for the same start and end Wednesdays selected in panel 01."
+"reserveCheckItem","항목","Item"
 "reserveCheckStart","시작 잔액","Start balance"
 "reserveCheckEnd","종료 잔액","End balance"
 "reserveCheckChange","증감","Change"
