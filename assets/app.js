@@ -151,6 +151,7 @@
     const historicalResidual=computed(()=>Math.max(0,...rows.value.map(r=>Math.abs(r.assetReconciliationDifference||0))));
     const translations=computed(()=>Object.entries(I).map(([key,v])=>({key,...v})).filter(r=>Object.values(r).some(v=>v.toLowerCase().includes(translationQuery.value.toLowerCase()))));
     const tone=v=>v===null?'zero':v>0?'positive':v<0?'negative':'zero';
+    const fundingBp=value=>finite(value)?(value>0?'+':value<0?'−':'')+number(Math.abs(value),2)+' bp':'N/A';
     const barWidth=v=>finite(v)?Math.abs(v)/Math.max(1,...bridgeItems.value.map(i=>Math.abs(i.value)))*100:0;
     const driverWidth=v=>finite(v)?Math.abs(v)/Math.max(1,...bridge.value.drivers.map(d=>Math.abs(d.value)))*100:0;
     const group=key=>['treasurySecurities','mortgageBackedSecurities','agencyDebt'].includes(key)?'securities':['loans','assetRepurchaseAgreements','centralBankLiquiditySwaps'].includes(key)?'credit':'accounting';
@@ -179,7 +180,7 @@
     function closeOnBackdrop(event){if(event.target===translationDialog.value){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTranslations();}}
     onMounted(async()=>{if(onlineMode){try{const next=await D.getSnapshot();snapshot.value=next;rows.value=next.history;state.value=D.snapshotState(next);setPeriod(1);}catch{state.value=rows.value.length?'error':'empty';}}});
     onBeforeUnmount(()=>{clearTimeout(timer);});
-    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
+    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,fundingBp,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
   }});
   app.mount('#app');
 })();

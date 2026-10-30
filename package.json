@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node --test tests/calculations.test.cjs",
     "check": "node --check assets/app.js && node --check assets/data.js && node --check assets/i18n.js",
-    "test:browser": "node tests/browser.cjs"
+    "test:browser": "node tests/browser.cjs",
+    "test:browser:v2": "node tests/v2-funding.cjs"
   }
 }

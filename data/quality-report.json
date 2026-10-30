@@ -1,7 +1,7 @@
 {
-  "rowCount": 683,
+  "rowCount": 684,
   "startDate": "2013-09-25",
-  "endDate": "2026-10-21",
+  "endDate": "2026-10-28",
   "duplicateDates": 0,
   "netLiquidityMissingDates": [
     "2013-12-25",
@@ -59,9 +59,9 @@
     "onRrp": 11,
     "netLiquidity": 11
   },
-  "bridgesValidated": 2579,
+  "bridgesValidated": 2583,
   "roundingToleranceMillions": 5,
-  "latestAssetDifferenceMillions": 0,
+  "latestAssetDifferenceMillions": -1,
   "latestLiabilityDifferenceMillions": -1,
   "latestTreasuryDifferenceMillions": -1,
   "onRrpVsH41OthersDifferences": [
@@ -131,7 +131,19 @@
     }
   ],
   "assetBreakdownUnavailableBefore": "2013-09-25",
+  "fundingMissingByField": {
+    "sofr": 412,
+    "effr": 412,
+    "iorb": 410,
+    "sofrIorbSpreadBp": 413,
+    "effrIorbSpreadBp": 413,
+    "standingRepoUsage": 412
+  },
   "filteredOperations": {
-    "nonReverseRepo": 2167
+    "nonReverseRepo": 2177
+  },
+  "filteredStandingRepoOperations": {
+    "smallValueExercise": 11,
+    "nonOvernight": 4
   }
 }

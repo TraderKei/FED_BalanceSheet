@@ -41,7 +41,7 @@ class Handler(SimpleHTTPRequestHandler):
         if path=='/':self.path='/FedBalanceSheet_v1.html'
         # Expose only the dashboard and its public data/assets, not Git or scripts.
         path=urllib.parse.unquote(urllib.parse.urlparse(self.path).path)
-        if '..' in Path(path).parts or not (path=='/FedBalanceSheet_v1.html' or path.startswith('/assets/') or path in ('/language-table.csv','/data/quality-report.json')):
+        if '..' in Path(path).parts or not (path in ('/FedBalanceSheet_v1.html','/FedBalanceSheet_v2.html') or path.startswith('/assets/') or path in ('/language-table.csv','/data/quality-report.json')):
             return self.json_response({'error':'not_found'},404)
         return super().do_GET()
 

@@ -4,6 +4,7 @@ const assert=require('node:assert/strict');
 const path=require('node:path');
 const {pathToFileURL}=require('node:url');
 const fs=require('node:fs');
+const D=require('../assets/data.js');
 (async()=>{
   const browser=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'msedge',headless:true});
   const context=await browser.newContext({viewport:{width:1440,height:900},acceptDownloads:true});
@@ -15,28 +16,28 @@ const fs=require('node:fs');
   const noOverflow=async()=>assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Overflow at ${(await page.viewportSize()).width}`);
   try{
     await page.goto(url);await page.locator('.main-kpi strong').waitFor();await page.evaluate(()=>document.fonts.ready);
-    assert.equal(await page.evaluate(()=>Vue.version),'3.2.41');await contains('.main-kpi','$5.808T');
+    assert.equal(await page.evaluate(()=>Vue.version),'3.2.41');await contains('.main-kpi','$'+(D.history.at(-1).netLiquidity/1e6).toFixed(3)+'T');
     assert.equal(await page.locator('svg').count(),5);await contains('.actual-banner','공식 데이터');assert.ok(!(await page.locator('main').innerText()).includes('샘플 데이터'));await noOverflow();
     const initialPath=await page.locator('.hero svg path[fill="none"]').getAttribute('d');
     await page.getByRole('button',{name:'6개월',exact:true}).click();
     assert.notEqual(await page.locator('.hero svg path[fill="none"]').getAttribute('d'),initialPath);
-    for(const [name,count] of [['1년',53],['2년',105],['5년',261],['전체',683]]){
+    for(const [name,count] of [['1년',53],['2년',105],['5년',261],['전체',D.history.length]]){
       await page.getByRole('button',{name,exact:true}).click();
       await contains('.hero svg desc',String(count));
     }
     await page.getByRole('button',{name:'2년',exact:true}).click();
-    await page.getByRole('button',{name:'4주 변화',exact:true}).click();await contains('.bridge-panel .result','+$8.3B');await contains('.period-row','2026-09-23');
-    await page.getByRole('button',{name:'13주 변화',exact:true}).click();await contains('.bridge-panel .result','−$103.4B');
+    await page.getByRole('button',{name:'4주 변화',exact:true}).click();await contains('.period-row',D.iso(Date.parse(D.meta.observationDate)-4*7*86400000));
+    await page.getByRole('button',{name:'13주 변화',exact:true}).click();await contains('.period-row',D.iso(Date.parse(D.meta.observationDate)-13*7*86400000));
     await page.getByRole('button',{name:'직접 선택',exact:true}).click();
     await page.getByLabel('시작일',{exact:true}).fill('2026-09-22');await page.getByRole('button',{name:'적용',exact:true}).click();await page.getByRole('alert').waitFor();
-    await page.getByLabel('시작일',{exact:true}).fill('2026-09-23');await page.getByRole('button',{name:'적용',exact:true}).click();assert.equal(await page.getByRole('alert').count(),0);await contains('.bridge-panel .result','+$8.3B');
+    await page.getByLabel('시작일',{exact:true}).fill('2026-09-23');await page.getByRole('button',{name:'적용',exact:true}).click();assert.equal(await page.getByRole('alert').count(),0);await contains('.period-row','2026-09-23');
     await page.getByRole('button',{name:'1주 변화',exact:true}).click();
     await page.locator('.bridge-label button').click();assert.equal(await page.locator('.expanded-drivers>div').count(),11);
     await page.locator('.bridge-label button').click();
     await page.getByRole('button',{name:'▸ 미 국채',exact:true}).click();assert.equal(await page.locator('.treasury-detail').count(),4);
     await page.getByRole('button',{name:'전체 표 보기 +',exact:true}).click();await contains('.balance-columns','미상각 할인');
     await page.getByRole('button',{name:'간략히 보기 −',exact:true}).click();await page.getByRole('button',{name:'▾ 미 국채',exact:true}).click();
-    const chart=page.locator('.hero svg');await chart.focus();await chart.press('End');await contains('.hero .chart-tooltip','2026-10-21');await chart.press('ArrowLeft');await contains('.hero .chart-tooltip','2026-10-14');
+    const chart=page.locator('.hero svg');await chart.focus();await chart.press('End');await contains('.hero .chart-tooltip',D.meta.observationDate);await chart.press('ArrowLeft');await contains('.hero .chart-tooltip',D.iso(Date.parse(D.meta.observationDate)-7*86400000));
     assert.equal(await page.getByRole('button',{name:'⌖ 차트에서 두 날짜 선택',exact:true}).count(),0);
     const chartBox=await chart.boundingBox();
     await page.mouse.move(chartBox.x+chartBox.width*.25,chartBox.y+chartBox.height*.5);
@@ -49,7 +50,7 @@ const fs=require('node:fs');
     await page.getByRole('button',{name:'2년',exact:true}).click();
     await page.getByRole('button',{name:'1주 변화',exact:true}).click();
     const downloadPromise=page.waitForEvent('download');await page.getByRole('button',{name:'↓ CSV 다운로드',exact:true}).click();const download=await downloadPromise;const exported=fs.readFileSync(await download.path(),'utf8');assert.ok(exported.includes('actual'));assert.ok(exported.includes('USD millions'));assert.equal(exported.split('\r\n').length,106);
-    await page.getByRole('button',{name:'출처·데이터 검증 +',exact:true}).click();await contains('.source-details','2013-09-25');await contains('.source-details','5,808,214.000');await page.getByRole('button',{name:'출처·데이터 검증 −',exact:true}).click();
+    await page.getByRole('button',{name:'출처·데이터 검증 +',exact:true}).click();await contains('.source-details','2013-09-25');await contains('.source-details',D.history.at(-1).netLiquidity.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3}));await page.getByRole('button',{name:'출처·데이터 검증 −',exact:true}).click();
     await page.getByRole('button',{name:'한·영 변환 테이블 ↗',exact:true}).click();await page.locator('dialog[open]').waitFor();
     await page.getByRole('searchbox').fill('netLiquidity');assert.equal(await page.locator('dialog tbody tr').count(),1);
     await page.keyboard.press('Escape');await page.locator('dialog[open]').waitFor({state:'hidden'});

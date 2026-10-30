@@ -15,7 +15,7 @@ const assert=require('node:assert/strict');
   await page.locator('.loading-layout').waitFor();
   const refreshed=await wait;assert.equal(refreshed.status(),200);const snapshot=await refreshed.json();assert.ok(snapshot.meta.fetchedAt>=initial.meta.fetchedAt);
   await page.locator('.hero').waitFor();assert.ok((await page.locator('.toast').innerText()).includes('공식 데이터 수집과 검증'));
-  const level=await page.locator('.main-kpi strong').innerText();assert.equal(level,'$5.808T');
+  const level=await page.locator('.main-kpi strong').innerText();assert.equal(level,'$'+(snapshot.history.at(-1).netLiquidity/1e6).toFixed(3)+'T');
   // A failed collection keeps actual values visible; never silently replaces them with mock data.
   await page.route('**/api/refresh',route=>route.fulfill({status:502,contentType:'application/json',body:'{"error":"test_failure"}'}));
   await page.getByRole('button',{name:'↻ 새로고침',exact:true}).click();await page.locator('.state-banner[role=status]').waitFor();assert.equal(await page.locator('.main-kpi strong').innerText(),level);

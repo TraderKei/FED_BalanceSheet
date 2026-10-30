@@ -14,13 +14,20 @@ class IngestTests(unittest.TestCase):
         cls.snapshot=json.loads((ROOT/'data/normalized/latest.json').read_text(encoding='utf-8'))
         cls.rows=cls.snapshot['history'];cls.by_date={r['date']:r for r in cls.rows}
         manifest=json.loads((ROOT/cls.snapshot['meta']['rawManifest']).read_text(encoding='utf-8'))
-        cls.h41=ROOT/manifest['sources'][0]['path']
-        cls.rrp_paths=[ROOT/s['path'] for s in manifest['sources'][1:]]
+        sources={s['id']:ROOT/s['path'] for s in manifest['sources']}
+        cls.h41=sources['h41']
+        cls.rrp_paths=[p for key,p in sources.items() if key.startswith('onrrp-')]
+        cls.repo_paths=[p for key,p in sources.items() if key.startswith('standing-repo-')]
+        cls.sofr_path=sources['sofr'];cls.effr_path=sources['effr'];cls.iorb_path=sources['iorb']
 
     def test_every_row_matches_retained_official_xml_and_operations(self):
         series,metadata,prepared=ingest.read_h41(self.h41)
         rrp,_=ingest.read_rrp([json.loads(p.read_text()) for p in self.rrp_paths])
-        rebuilt=ingest.normalize(series,rrp)
+        sofr=ingest.read_reference_rate(json.loads(self.sofr_path.read_text()),'SOFR')
+        effr=ingest.read_reference_rate(json.loads(self.effr_path.read_text()),'EFFR')
+        iorb=ingest.read_iorb(self.iorb_path)
+        repo,_=ingest.read_standing_repo([json.loads(p.read_text()) for p in self.repo_paths])
+        rebuilt=ingest.normalize(series,rrp,sofr,effr,iorb,repo)
         self.assertEqual(rebuilt,self.rows)
         for key,m in metadata.items():
             self.assertIn('Wednesday level',m['description'])
@@ -40,6 +47,21 @@ class IngestTests(unittest.TestCase):
         self.assertEqual(latest['totalAssets']-self.by_date['2026-10-14']['totalAssets'],-2035)
         self.assertEqual(latest['netLiquidity']-self.by_date['2026-10-14']['netLiquidity'],-61401)
 
+    def test_funding_sources_join_on_effective_or_operation_wednesday(self):
+        latest=self.by_date['2026-10-28']
+        self.assertEqual((latest['sofr'],latest['effr'],latest['iorb']),(3.94,3.88,3.90))
+        self.assertEqual((latest['sofrIorbSpreadBp'],latest['effrIorbSpreadBp']),(4.0,-2.0))
+        self.assertEqual(latest['standingRepoUsage'],6.0)
+        self.assertEqual(latest['standingRepoUsage'],sum(
+            op['totalAmtAccepted'] for path in self.repo_paths
+            for op in json.loads(path.read_text())['repo']['operations']
+            if op.get('operationDate')=='2026-10-28' and op.get('operationType')=='Repo'
+            and op.get('term')=='Overnight' and op.get('auctionStatus')=='Results'
+            and 'small value exercise' not in str(op.get('note','')).lower()
+        )/1_000_000)
+        self.assertIsNone(self.by_date['2020-10-28']['iorb'])
+        self.assertIsNone(self.by_date['2020-10-28']['sofrIorbSpreadBp'])
+
     def test_no_operation_is_not_zero_or_carried_forward(self):
         for date in self.snapshot['quality']['netLiquidityMissingDates']:
             self.assertIsNone(self.by_date[date]['onRrp'])
@@ -55,6 +77,14 @@ class IngestTests(unittest.TestCase):
         self.assertEqual(daily['2026-10-21']['operationIds'],['a'])
         self.assertEqual(rejected['nonReverseRepo'],2)
         with self.assertRaises(ValueError):ingest.read_rrp([payload,{'repo':{'operations':[{**op,'totalAmtAccepted':1}]}}])
+
+    def test_standing_repo_excludes_exercises_and_preserves_zero(self):
+        op={'operationId':'a','operationType':'Repo','term':'Overnight','auctionStatus':'Results','operationDate':'2026-10-28','settlementDate':'2026-10-28','totalAmtAccepted':0,'note':''}
+        payload={'repo':{'operations':[op,{**op,'operationId':'b','totalAmtAccepted':6_000_000},{**op,'operationId':'c','note':'Small Value Exercise (SVE)','totalAmtAccepted':10_000_000},{**op,'operationId':'d','term':'Term'},{**op,'operationId':'e','operationType':'Reverse Repo'}]}}
+        daily,rejected=ingest.read_standing_repo([payload,payload])
+        self.assertEqual(daily['2026-10-28']['value'],6)
+        self.assertEqual(len(daily['2026-10-28']['operationIds']),2)
+        self.assertEqual(rejected['smallValueExercise'],2)
 
     def test_all_periods_and_latest_source_reconciliation(self):
         quality=ingest.validate(self.rows)

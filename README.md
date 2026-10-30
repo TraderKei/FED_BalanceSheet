@@ -41,6 +41,10 @@
 3. **ON RRP — Federal Reserve Bank of New York 거래 결과**
    - [Reverse Repo Operations](https://www.newyorkfed.org/markets/desk-operations/reverse-repo)에서 익일물 역레포의 일별 accepted amount를 수집한다. 운영용 API는 [Markets Data APIs](https://markets.newyorkfed.org/static/docs/markets-api.html)의 해당 엔드포인트와 이용 조건을 확인한 뒤 어댑터에 지정한다.
    - H.4.1의 수요일 관측일과 같은 날짜의 거래 결과만 주간 시계열에 결합한다. 거래 결과와 H.4.1의 `Reverse repurchase agreements → Others`를 교차 확인하되, 후자를 ON RRP의 영구적인 동의어로 가정하지 않는다.
+4. **자금조달 여건 — 연준·뉴욕 연은 공식 계열**
+   - [뉴욕 연은 Markets Data API](https://markets.newyorkfed.org/static/docs/markets-api.html)에서 SOFR·EFFR의 `effectiveDate`별 금리와 익일물 Repo 결과의 `operationDate`별 accepted amount를 수집한다. 시험성 소액 거래는 상설 레포 이용액에서 제외한다.
+   - [연준 PRates XML](https://www.federalreserve.gov/releases/prates/data/FRB_PRATES_xml.zip)의 `RESBM_N.D`를 IORB로 사용한다. SOFR−IORB와 EFFR−IORB는 퍼센트포인트 차이에 100을 곱해 bp로 저장한다.
+   - 세 계열 모두 H.4.1의 해당 수요일과 정확히 일치하는 날짜만 결합한다. 휴일·미발표·개시 전 날짜는 `null`로 유지하고 0으로 대체하지 않는다.
 
 ### 라이선스 메모
 
@@ -242,13 +246,13 @@ MVP 규칙:
 ### 교차 확인: 은행 지급준비금과 자금조달 여건
 
 - MVP에서는 H.4.1의 은행 지급준비금 잔액·1주·4주·13주 변화를 Net Liquidity 대용지표와 같은 날짜로 비교한다. 방향이 다르면 통화, 해외 공식기관 역레포, 기타 예금·부채 등 대차대조표의 다른 항목을 확인하고 차이를 오류로 단정하지 않는다.
-- 자금시장 데이터가 연결되면 SOFR−IORB 또는 EFFR−IORB 스프레드와 상설 레포 이용액을 보조 검증 지표로 제공한다. 금리·시설 이용은 규모 지표와 다른 **자금조달 압력**을 보여주며, 동일한 수요일 또는 명시된 집계 기간으로 맞춘다. 출처: [뉴욕 연은 SOFR](https://www.newyorkfed.org/markets/reference-rates/sofr), [뉴욕 연은 레포 운영 결과](https://www.newyorkfed.org/markets/desk-operations/repo).
+- 자금시장 보조 지표로 SOFR−IORB·EFFR−IORB 스프레드(bp)와 상설 레포 이용액(USD millions)을 저장하고 같은 수요일의 값을 표시한다. 금리·시설 이용은 규모 지표와 다른 **자금조달 압력**을 보여준다. 출처: [뉴욕 연은 Markets Data API](https://markets.newyorkfed.org/static/docs/markets-api.html), [연준 IORB](https://www.federalreserve.gov/monetarypolicy/reserve-balances.htm).
 - Net Liquidity의 상승만으로 위험자산으로 자금이 유입됐거나 시장 유동성이 개선됐다고 결론내리지 않는다. 실제 매매 유동성과 시장금리·스프레드는 별도 관측 대상이다.
 
 ### 보조 정보: Asset Mix stacked area
 
 - Treasuries, MBS, Other를 겹침 없는 stacked area로 표시한다.
-- 고정된 색상 매핑을 사용한다: Treasuries=cyan, MBS=violet, Other=slate.
+- v2는 고정된 색상 매핑을 사용한다: Treasuries=cyan, MBS=violet, Other=orange.
 - 툴팁에는 금액과 Total Assets 대비 비중을 함께 표시한다.
 
 ### 보조 정보: Balance Sheet Summary

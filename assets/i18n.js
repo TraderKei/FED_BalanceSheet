@@ -39,6 +39,8 @@
     ['sameDirection','선택 기간 순유동성과 같은 방향','Same direction as the proxy over this period'],['differentDirection','선택 기간 순유동성과 방향 상이','Different direction from the proxy over this period'],
     ['crossNote','방향이 다르면 통화·해외기관 역레포·기타 부채를 함께 확인합니다.','When directions differ, review currency, foreign-official RRP and other liabilities.'],
     ['funding','자금조달 여건','Funding conditions'],['notConnected','데이터 미연결','Not connected'],['fundingNote','SOFR−IORB · EFFR−IORB · 상설 레포 이용액','SOFR−IORB · EFFR−IORB · Standing repo usage'],
+    ['standingRepoUsage','상설 레포 이용액','Standing repo usage'],['v2FundingNote','동일 수요일 관측 · 금리 차이 bp / 레포 이용액 USD billions','Same Wednesday observations · rate spreads in bp / repo usage in USD billions'],
+    ['v2SourceNote','공식 자료: 연준 H.4.1·IORB / 뉴욕 연은 ON RRP·SOFR·EFFR·상설 레포','Official data: Fed H.4.1 and IORB / NY Fed ON RRP, SOFR, EFFR and standing repo'],
     ['assetMix','자산 구성','Asset composition'],['mixNote','총자산 대비 금액·비중 · 기타는 잔차','Amounts / share of total assets · Other is a residual'],
     ['balanceSheet','대차대조표 요약','Balance sheet summary'],['assets','자산','Assets'],['liabilities','부채·자본','Liabilities & capital'],
     ['fullTable','전체 표 보기','View full table'],['compactTable','간략히 보기','View less'],['bills','단기 국채','Bills'],['nominalNotesBonds','명목 중장기 국채','Nominal notes & bonds'],['tipsPrincipal','물가연동국채 원금','TIPS principal'],['inflationCompensation','인플레이션 보상','Inflation compensation'],

@@ -34,6 +34,13 @@
       dates.add(row.date);prior=row.date;
       const expected=net(row);
       if(expected===null?row.netLiquidity!==null:!finite(row.netLiquidity)||Math.abs(expected-row.netLiquidity)>1e-6)throw Error('Net liquidity reconciliation failed');
+      if('sofrIorbSpreadBp' in row){
+        for(const [rate,spread] of [['sofr','sofrIorbSpreadBp'],['effr','effrIorbSpreadBp']]){
+          const expectedSpread=finite(row[rate])&&finite(row.iorb)?Math.round((row[rate]-row.iorb)*1e6)/1e4:null;
+          if(expectedSpread===null?row[spread]!==null:!finite(row[spread])||Math.abs(expectedSpread-row[spread])>1e-4)throw Error('Funding spread reconciliation failed');
+        }
+        if(row.standingRepoUsage!==null&&(!finite(row.standingRepoUsage)||row.standingRepoUsage<0))throw Error('Invalid standing repo usage');
+      }
     }
     if(snapshot.history.at(-1).date!==snapshot.meta.observationDate||net(snapshot.history.at(-1))===null)throw Error('Latest inputs are incomplete');
     return snapshot;
