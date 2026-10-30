@@ -65,16 +65,53 @@
       <div v-if="active" class="chart-tooltip" :style="tooltipStyle" aria-live="polite"><span>{{active.date}} · {{t('actual')}}</span><strong>{{label}} {{money(active[field],'B',2)}}</strong><template v-if="stacked"><div v-for="s in stackPaths" :key="s.key" class="tooltip-row"><span>{{t(s.key==='mortgageBackedSecurities'?'mbsShort':s.key)}}</span><span>{{money(active[s.key],'B',1)}} · {{finite(active[s.key])&&active.totalAssets?(active[s.key]/active.totalAssets*100).toFixed(1)+'%':'N/A'}}</span></div></template><span v-else>{{t('wow')}} {{signed(previous&&finite(previous[field])&&finite(active[field])?active[field]-previous[field]:null,2)}}</span></div>
     </div>`
   };
+  const ObservationDatePicker={
+    props:{modelValue:String,dates:Array,label:String,lang:String},
+    emits:['update:modelValue'],
+    setup(props,{emit}){
+      const host=ref(null),open=ref(false),month=ref((props.modelValue||props.dates.at(-1)||'').slice(0,7));
+      const available=computed(()=>new Set(props.dates));
+      const firstMonth=computed(()=>props.dates[0]?.slice(0,7)||'');
+      const lastMonth=computed(()=>props.dates.at(-1)?.slice(0,7)||'');
+      const weekdays=computed(()=>props.lang==='ko'?['월','화','수','목','금','토','일']:['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
+      const monthLabel=computed(()=>{const [year,number]=month.value.split('-').map(Number);return props.lang==='ko'?year+'년 '+number+'월':new Intl.DateTimeFormat('en-US',{month:'long',year:'numeric'}).format(new Date(Date.UTC(year,number-1,1)));});
+      const days=computed(()=>{
+        const [year,number]=month.value.split('-').map(Number);
+        if(!year||!number)return [];
+        const offset=(new Date(Date.UTC(year,number-1,1)).getUTCDay()+6)%7;
+        const count=new Date(Date.UTC(year,number,0)).getUTCDate();
+        return [...Array(offset).fill(null),...Array.from({length:count},(_,i)=>({number:i+1,date:year+'-'+String(number).padStart(2,'0')+'-'+String(i+1).padStart(2,'0')}))];
+      });
+      function move(delta){const [year,number]=month.value.split('-').map(Number);month.value=new Date(Date.UTC(year,number-1+delta,1)).toISOString().slice(0,7);}
+      function select(date){emit('update:modelValue',date);open.value=false;}
+      function outside(event){if(!host.value?.contains(event.target))open.value=false;}
+      function escape(event){if(event.key==='Escape'){open.value=false;event.stopPropagation();}}
+      watch(()=>props.modelValue,value=>{if(value)month.value=value.slice(0,7);});
+      onMounted(()=>document.addEventListener('pointerdown',outside));
+      onBeforeUnmount(()=>document.removeEventListener('pointerdown',outside));
+      return {host,open,month,available,firstMonth,lastMonth,weekdays,monthLabel,days,move,select,escape};
+    },
+    template:`<div class="observation-picker" ref="host" @keydown="escape">
+      <span class="observation-picker-label">{{label}}</span>
+      <button type="button" class="observation-date-trigger" :aria-label="label+' '+modelValue" :aria-expanded="open" @click="open=!open">
+        <span>{{modelValue}}</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor"/><path d="M2 6.5h12M5 1.5v3M11 1.5v3" stroke="currentColor"/><path d="M5 9h2M9 9h2M5 11.5h2" stroke="currentColor"/></svg>
+      </button>
+      <div v-if="open" class="observation-calendar" role="group" :aria-label="label">
+        <div class="observation-calendar-heading"><button type="button" :disabled="month<=firstMonth" :aria-label="lang==='ko'?'이전 달':'Previous month'" @click="move(-1)">‹</button><strong>{{monthLabel}}</strong><button type="button" :disabled="month>=lastMonth" :aria-label="lang==='ko'?'다음 달':'Next month'" @click="move(1)">›</button></div>
+        <div class="observation-calendar-grid"><span v-for="day in weekdays" :key="day" class="observation-weekday">{{day}}</span><template v-for="(day,i) in days" :key="i"><span v-if="!day"></span><button v-else type="button" :disabled="!available.has(day.date)" :class="{selected:day.date===modelValue}" :aria-label="day.date" :aria-pressed="day.date===modelValue" @click="select(day.date)">{{day.number}}</button></template></div>
+      </div>
+    </div>`
+  };
   function saveFile(content,name,type='text/csv;charset=utf-8'){const blob=new Blob(['\ufeff',content],{type}),url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
   const csvCell=v=>'"'+String(v??'').replaceAll('"','""')+'"';
   const storage={get(key,fallback){try{return localStorage.getItem('fed.'+key)||fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('fed.'+key,value);}catch{}}};
-  const app=createApp({components:{TimeChart},setup(){
+  const app=createApp({components:{TimeChart,ObservationDatePicker},setup(){
     const lang=ref(storage.get('lang','ko')),theme=ref(storage.get('theme','dark'));
     const snapshot=ref(D.snapshot),meta=computed(()=>snapshot.value?.meta||{}),quality=computed(()=>snapshot.value?.quality||{});
     const rows=ref(D.history),range=ref('2y'),zoom=ref(null),chartCustomRange=ref(null),chartDraftStart=ref(''),chartDraftEnd=ref(''),chartDateError=ref(false),period=ref('1'),state=ref(D.snapshotState(D.snapshot)),notice=ref('');
     const onlineMode=location.protocol==='http:'||location.protocol==='https:',previewMode=new URLSearchParams(location.search).has('preview');
     const sourcesOpen=ref(false),finite=D.finite,tableNumber=value=>finite(value)?number(value/1000,1):'N/A';
-    const latest=computed(()=>rows.value.at(-1)||{}),ranges=['6m','1y','2y','5y','max'],stateOptions=['ready','loading','partial','stale','error','empty'];
+    const latest=computed(()=>rows.value.at(-1)||{}),availableDates=computed(()=>rows.value.filter(r=>finite(r.netLiquidity)).map(r=>r.date)),ranges=['6m','1y','2y','5y','max'],stateOptions=['ready','loading','partial','stale','error','empty'];
     const startDate=ref(D.history.length?D.iso(Date.parse(D.history.at(-1).date)-7*86400000):''),endDate=ref(D.history.at(-1)?.date||''),draftStart=ref(startDate.value),draftEnd=ref(endDate.value),dateError=ref(false);
     const driversExpanded=ref(false),allDrivers=ref(false),fullTable=ref(false),treasuryOpen=ref(false),translationDialog=ref(null),translationQuery=ref('');
     const checkedAt=computed(()=>meta.value.fetchedAt?.replace('T',' ').replace('Z',' UTC')||'N/A');let timer;
@@ -85,8 +122,8 @@
     const visibleRows=computed(()=>{const weeks={'6m':26,'1y':52,'2y':104,'5y':260};return range.value==='max'?rows.value:range.value==='custom'&&chartCustomRange.value?rows.value.filter(r=>r.date>=chartCustomRange.value.start&&r.date<=chartCustomRange.value.end):rows.value.slice(-(weeks[range.value]??104)-1);});
     const chartRows=computed(()=>zoom.value?visibleRows.value.filter(r=>r.date>=zoom.value.start&&r.date<=zoom.value.end):visibleRows.value);
     function setRange(value){range.value=value;zoom.value=null;chartDateError.value=false;}
-    function selectChartCustom(){const current=chartRows.value;chartDraftStart.value=current[0]?.date||rows.value[0]?.date||'';chartDraftEnd.value=current.at(-1)?.date||latest.value.date||'';chartCustomRange.value={start:chartDraftStart.value,end:chartDraftEnd.value};setRange('custom');}
-    function applyChartDates(){const selected=rows.value.filter(r=>r.date>=chartDraftStart.value&&r.date<=chartDraftEnd.value);chartDateError.value=!(chartDraftStart.value<chartDraftEnd.value&&selected.length>=2);if(!chartDateError.value){chartCustomRange.value={start:chartDraftStart.value,end:chartDraftEnd.value};zoom.value=null;}}
+    function selectChartCustom(){const current=chartRows.value.filter(r=>finite(r.netLiquidity));chartDraftStart.value=current[0]?.date||availableDates.value[0]||'';chartDraftEnd.value=current.at(-1)?.date||availableDates.value.at(-1)||'';chartCustomRange.value={start:chartDraftStart.value,end:chartDraftEnd.value};setRange('custom');}
+    function applyChartDates(){const selected=availableDates.value.filter(date=>date>=chartDraftStart.value&&date<=chartDraftEnd.value);chartDateError.value=!(chartDraftStart.value<chartDraftEnd.value&&availableDates.value.includes(chartDraftStart.value)&&availableDates.value.includes(chartDraftEnd.value)&&selected.length>=2);if(!chartDateError.value){chartCustomRange.value={start:chartDraftStart.value,end:chartDraftEnd.value};zoom.value=null;}}
     function zoomChart(dates){zoom.value=dates;}
     function resetZoom(){zoom.value=null;}
     const baseline=w=>rows.value.find(r=>r.date===D.iso(Date.parse(latest.value.date)-w*7*86400000));
@@ -118,7 +155,7 @@
     const driverWidth=v=>finite(v)?Math.abs(v)/Math.max(1,...bridge.value.drivers.map(d=>Math.abs(d.value)))*100:0;
     const group=key=>['treasurySecurities','mortgageBackedSecurities','agencyDebt'].includes(key)?'securities':['loans','assetRepurchaseAgreements','centralBankLiquiditySwaps'].includes(key)?'credit':'accounting';
     function setPeriod(w){period.value=String(w);endDate.value=latest.value.date;startDate.value=D.iso(Date.parse(endDate.value)-w*7*86400000);draftStart.value=startDate.value;draftEnd.value=endDate.value;dateError.value=false;}
-    function applyDates(){dateError.value=!(draftStart.value<draftEnd.value&&[draftStart.value,draftEnd.value].every(d=>rows.value.some(r=>r.date===d)));if(!dateError.value){startDate.value=draftStart.value;endDate.value=draftEnd.value;period.value='custom';}}
+    function applyDates(){dateError.value=!(draftStart.value<draftEnd.value&&[draftStart.value,draftEnd.value].every(d=>availableDates.value.includes(d)));if(!dateError.value){startDate.value=draftStart.value;endDate.value=draftEnd.value;period.value='custom';}}
     async function refresh(){
       if(state.value==='loading')return;
       state.value='loading';
@@ -142,7 +179,7 @@
     function closeOnBackdrop(event){if(event.target===translationDialog.value){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTranslations();}}
     onMounted(async()=>{if(onlineMode){try{const next=await D.getSnapshot();snapshot.value=next;rows.value=next.history;state.value=D.snapshotState(next);setPeriod(1);}catch{state.value=rows.value.length?'error':'empty';}}});
     onBeforeUnmount(()=>{clearTimeout(timer);});
-    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
+    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
   }});
   app.mount('#app');
 })();

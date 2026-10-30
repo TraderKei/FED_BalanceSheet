@@ -43,8 +43,30 @@
     .swatch{width:9px;height:9px}
     .v2-footer{justify-content:flex-end}
     .chart-date-form{margin:0 0 12px}
+    .v2-date-form{align-items:center}
+    .observation-picker{position:relative;display:inline-flex;align-items:center;gap:8px;min-width:0}
+    .observation-picker-label{color:var(--muted);font-size:12px;white-space:nowrap}
+    .observation-date-trigger{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;min-width:145px;font-size:12px}
+    .observation-date-trigger svg{flex-shrink:0;color:var(--primary)}
+    .observation-calendar{position:absolute;z-index:50;top:calc(100% + 6px);left:0;width:268px;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:5px;box-shadow:0 10px 30px #0005}
+    .observation-calendar-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:7px}
+    .observation-calendar-heading strong{font-size:12px}
+    .observation-calendar-heading button{min-height:26px;padding:1px 8px}
+    .observation-calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center}
+    .observation-calendar-grid .observation-weekday{font-size:10px;color:var(--muted);padding:4px 0}
+    .observation-calendar-grid button{min-width:0;min-height:29px;padding:2px 0;border:0;font-size:11px}
+    .observation-calendar-grid button:disabled{opacity:.28;cursor:not-allowed;background:transparent}
+    .observation-calendar-grid button:not(:disabled){color:var(--primary);font-weight:600}
+    .observation-calendar-grid button.selected{background:var(--hover);outline:1px solid var(--primary)}
+    .v2-expanded-drivers{display:flex;flex-direction:column;gap:2px;max-width:700px}
+    .v2-expanded-drivers .v2-driver-row{display:grid;grid-template-columns:minmax(150px,1.5fr) minmax(100px,2fr) 100px;align-items:center;gap:12px}
+    .v2-driver-row .v2-driver-bar{height:7px;background:var(--bg3);border-radius:2px;overflow:hidden}
+    .v2-driver-bar i{display:block;height:100%;background:var(--muted)}
+    .v2-driver-bar i.positive{background:var(--green)}
+    .v2-driver-bar i.negative{background:var(--koscom)}
+    .v2-expanded-drivers .v2-driver-residual{border-top:1px solid var(--border);margin-top:5px}
     @media(max-width:1279px){.kpi-grid>.yearly{display:flex}.kpi-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.kpi-grid .main-kpi{grid-column:1/-1}}
-    @media(max-width:767px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi-grid .kpi:nth-child(2n){border-left:0;padding-left:0}.hero .english-label{display:inline}.chart-range-actions .range-control{flex-wrap:wrap}.chart-range-actions .range-control button{flex:1 1 30%}}
+    @media(max-width:767px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi-grid .kpi:nth-child(2n){border-left:0;padding-left:0}.hero .english-label{display:inline}.chart-range-actions .range-control{flex-wrap:wrap}.chart-range-actions .range-control button{flex:1 1 30%}.v2-expanded-drivers .v2-driver-row{grid-template-columns:minmax(90px,1.4fr) minmax(55px,1fr) auto;gap:7px}.observation-calendar{left:0}}
     @media(min-width:1600px){.v2-topbar{padding-left:58px;padding-right:58px}}
     @media(max-width:1100px){.v2-topbar{grid-template-columns:minmax(180px,1fr) auto;gap:12px}.v2-topbar .header-actions{justify-self:end}.header-context{grid-column:1/-1;justify-self:end}}
     @media(max-width:767px){.v2-topbar{display:flex;flex-wrap:wrap;gap:8px;min-height:0;padding:8px 25px}.v2-topbar .brand{flex:1 1 100%}.v2-topbar .header-actions{width:auto;justify-content:center;margin:auto}.header-context{width:100%;align-items:flex-start;text-align:left}.header-meta{justify-content:flex-start}.main-kpi strong{font-size:36px}.kpi strong{font-size:22px}.bridge-item strong{font-size:23px}.chart-label{font-size:11px}}
@@ -72,7 +94,7 @@
     <template v-else>
       <section class="panel hero" aria-labelledby="net-title">
         <div class="panel-heading"><div class="inline-title"><h2 id="net-title">{{ t('netLiquidity') }} <span class="english-label" v-if="lang==='ko'">NET LIQUIDITY</span></h2><span class="badge neutral v2-proxy-badge" tabindex="0" :aria-label="t('proxy') + ': ' + t('proxyNote')" :data-tooltip="t('proxyNote')">{{ t('proxy') }} ⓘ</span></div><div class="chart-range-actions"><button class="text-button" @click="resetZoom" :disabled="!zoom">{{ t('resetZoom') }}</button><div class="segmented range-control" :aria-label="t('range')"><button v-for="r in ranges" :key="r" @click="setRange(r)" :class="{active:range===r}" :aria-pressed="range===r">{{ t(r) }}</button><button @click="selectChartCustom" :class="{active:range==='custom'}" :aria-pressed="range==='custom'">{{ t('custom') }}</button></div></div></div>
-        <form class="date-form chart-date-form" v-if="range==='custom'" :aria-label="t('range')" @submit.prevent="applyChartDates"><label>{{ t('start') }}<input type="date" v-model="chartDraftStart" :min="rows[0].date" :max="latest.date" required></label><label>{{ t('end') }}<input type="date" v-model="chartDraftEnd" :min="rows[0].date" :max="latest.date" required></label><button type="submit">{{ t('apply') }}</button><span v-if="chartDateError" role="alert">{{ t('chartInvalidDates') }}</span></form>
+        <form class="date-form chart-date-form v2-date-form" v-if="range==='custom'" :aria-label="t('range')" @submit.prevent="applyChartDates"><observation-date-picker v-model="chartDraftStart" :dates="availableDates" :label="t('start')" :lang="lang"></observation-date-picker><observation-date-picker v-model="chartDraftEnd" :dates="availableDates" :label="t('end')" :lang="lang"></observation-date-picker><button type="submit">{{ t('apply') }}</button><span v-if="chartDateError" role="alert">{{ t('chartInvalidDates') }}</span></form>
         <div class="kpi-grid"><div class="main-kpi"><span class="label">{{ t('current') }}</span><strong>{{ money(latest.netLiquidity,'T',3) }}</strong><small>{{ latest.date }}</small></div><div v-for="w in [1,4,13]" :key="w" class="kpi"><span class="label">{{ t(w+'w') }}</span><strong>{{ signed(change(w,'netLiquidity')) }}</strong><small>{{ pct(change(w,'netLiquidity'),baseline(w)?.netLiquidity) }}</small></div><div class="kpi yearly"><span class="label">{{ t('52w') }}</span><strong>{{ signed(change(52,'netLiquidity')) }}</strong><small>{{ pct(change(52,'netLiquidity'),baseline(52)?.netLiquidity) }}</small></div></div>
         <time-chart :all-rows="rows" :rows="chartRows" field="netLiquidity" :label="t('netLiquidity')" :lang="lang" color="var(--primary)" :height="194" zoomable crosshair @zoom="zoomChart"></time-chart>
         <div class="chart-bottom"><span>{{ t('netLiquidity') }} = {{ t('proxyNote') }} <span v-if="visibleMissing"> · {{ t('missingObservations') }}: {{ visibleMissing }} · {{ t('noCarry') }}</span></span></div>
@@ -80,9 +102,9 @@
       <section class="panel bridge-panel" aria-labelledby="bridge-title">
         <div class="panel-heading"><div class="inline-title"><span class="section-index">01</span><h2 id="bridge-title">{{ t('bridge') }}</h2></div><div class="segmented"><button v-for="w in [1,4,13]" :key="w" @click="setPeriod(w)" :aria-pressed="period===String(w)" :class="{active:period===String(w)}">{{ t(w+'w') }}</button><button @click="period='custom'" :aria-pressed="period==='custom'" :class="{active:period==='custom'}">{{ t('custom') }}</button></div></div>
         <div class="period-row"><span>{{ startDate }} <span class="arrow">→</span> {{ endDate }}</span><span>{{ money(bridge.start?.netLiquidity,'T',3) }} → {{ money(bridge.end?.netLiquidity,'T',3) }} <b>({{ pct(bridge.change,bridge.start?.netLiquidity) }})</b></span><span class="reconciliation">{{ bridge.change===null?t('unavailable'):Math.abs(bridge.bridgeDifference)<0.000001?'✓ '+t('reconciled'):'⚠ '+t('mismatch') }}</span></div>
-        <form class="date-form" v-if="period==='custom'" @submit.prevent="applyDates"><label>{{ t('start') }}<input type="date" v-model="draftStart" :min="rows[0].date" :max="latest.date" required></label><label>{{ t('end') }}<input type="date" v-model="draftEnd" :min="rows[0].date" :max="latest.date" required></label><button type="submit">{{ t('apply') }}</button><span v-if="dateError" role="alert">{{ t('invalidDates') }}</span></form>
+        <form class="date-form v2-date-form" v-if="period==='custom'" @submit.prevent="applyDates"><observation-date-picker v-model="draftStart" :dates="availableDates" :label="t('start')" :lang="lang"></observation-date-picker><observation-date-picker v-model="draftEnd" :dates="availableDates" :label="t('end')" :lang="lang"></observation-date-picker><button type="submit">{{ t('apply') }}</button><span v-if="dateError" role="alert">{{ t('invalidDates') }}</span></form>
         <div class="bridge-grid"><div v-for="(item,i) in bridgeItems" :key="item.key" class="bridge-item" :class="{result:i===3}"><div class="bridge-label"><span>{{ item.prefix }} {{ t(item.key) }}</span><button v-if="i===0" class="text-button" @click="driversExpanded=!driversExpanded" :aria-expanded="driversExpanded" :aria-label="t('expand')">{{ driversExpanded?'−':'+' }}</button></div><strong :class="tone(item.value)">{{ signed(item.value) }}</strong><div class="contribution-track"><span :class="tone(item.value)" :style="{width:barWidth(item.value)+'%'}"></span></div><small v-if="i<3">{{ money(bridge.start?.[item.field],'B',item.field==='onRrp'?3:1) }} → {{ money(bridge.end?.[item.field],'B',item.field==='onRrp'?3:1) }}</small><small v-else>Δ {{ t('totalAssets') }} − Δ TGA − Δ ON RRP</small></div></div>
-        <div v-if="driversExpanded" class="expanded-drivers"><div v-for="d in bridge.drivers" :key="d.key"><span>{{ t(d.key) }}</span><b>{{ signed(d.value) }}</b></div><div><span>{{ t('mismatch') }}</span><b>{{ money(bridge.difference,'B',3) }}</b></div></div>
+        <div v-if="driversExpanded" class="expanded-drivers v2-expanded-drivers"><div v-for="d in bridge.drivers" :key="d.key" class="v2-driver-row"><span>{{ t(d.key) }}</span><span class="v2-driver-bar"><i :class="tone(d.value)" :style="{width:driverWidth(d.value)+'%'}"></i></span><b>{{ signed(d.value) }}</b></div><div class="v2-driver-residual"><span>{{ t('mismatch') }}</span><b>{{ money(bridge.difference,'B',3) }}</b></div></div>
         <p class="footnote">{{ t('bridgeNote') }} <span v-if="bridge.change===null">{{ t('missingPeriodNote') }}</span></p>
       </section>
       <div class="two-col causes">
