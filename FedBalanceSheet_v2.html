@@ -49,12 +49,24 @@
     .cross-check .reserve-changes{justify-content:space-between;gap:16px}
     .reserve-summary .cross-status{grid-column:1/-1;min-width:0;align-items:flex-start}
     .reserve-summary .cross-status .badge{max-width:100%}
-    .cross-check>.funding{grid-column:auto;min-width:0}
+    .cross-check>.funding{grid-column:auto;min-width:0;align-self:start}
+    .cross-check>.cross-title{align-self:start}
+    .reserve-check-guide{width:100%;min-width:0;font-size:12px}
+    .reserve-check-guide summary{cursor:pointer;color:var(--primary)}
+    .reserve-check-guide summary:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+    .reserve-check-content{display:grid;gap:8px;padding-top:8px;color:var(--muted);line-height:1.6}
+    .reserve-check-table-scroll{width:100%;overflow-x:auto}
+    .reserve-check-guide table{min-width:440px;color:var(--black)}
+    .reserve-check-guide caption{text-align:left;color:var(--muted);font-size:11px;padding-bottom:5px}
+    .reserve-check-guide th,.reserve-check-guide td{padding:6px 8px;font-size:11px;vertical-align:top}
+    .reserve-check-guide th:first-child{padding-left:0;font-weight:400;width:40%}
+    .reserve-check-guide th:not(:first-child),.reserve-check-guide td{text-align:right;white-space:nowrap}
     .funding-values{display:flex;flex-direction:column;gap:4px;min-width:0}
     .funding-values>div{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
     .funding-values span{font-size:11px;color:var(--muted)}
     .funding-values b{white-space:nowrap;font-size:12px;color:var(--black)}
-    .funding-term{cursor:help}
+    .funding-heading{position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .funding-heading .funding-info::after{width:min(370px,calc(100vw - 50px));white-space:pre-line}
     .chart-date-form{margin:0 0 12px}
     .v2-date-form{align-items:center}
     .observation-picker{position:relative;display:inline-flex;align-items:center;gap:8px;min-width:0}
@@ -141,9 +153,28 @@
         <div class="reserve-summary">
           <div class="reserve-level"><span class="label">{{ t('reserveBalances') }}</span><strong>{{ money(latest.reserveBalances,'T',3) }}</strong></div>
           <div class="reserve-changes"><div v-for="w in [1,4,13]" :key="w"><span class="label">{{ t(w+'w') }}</span><b>{{ signed(change(w,'reserveBalances')) }}</b></div></div>
-          <div class="cross-status"><span class="badge amber">{{ t(sameDirection===null?'unavailable':sameDirection?'sameDirection':'differentDirection') }}</span><small>{{ t('crossNote') }}</small></div>
+          <div class="cross-status">
+            <span class="badge amber">{{ t(sameDirection===null?'unavailable':sameDirection?'sameDirection':'differentDirection') }}</span>
+            <small>{{ t('crossNote') }}</small>
+            <details class="reserve-check-guide">
+              <summary>{{ t('reserveCheckGuide') }}</summary>
+              <div class="reserve-check-content">
+                <p>{{ t('reserveCheckMethod') }}</p>
+                <div class="reserve-check-table-scroll" tabindex="0" :aria-label="t('reserveCheckGuide')">
+                  <table><caption>{{ startDate }} → {{ endDate }} · USD billions</caption><thead><tr><th scope="col">{{ t('key') }}</th><th scope="col">{{ t('reserveCheckStart') }}</th><th scope="col">{{ t('reserveCheckEnd') }}</th><th scope="col">{{ t('reserveCheckChange') }}</th></tr></thead><tbody><tr v-for="item in reserveCheckItems" :key="item.key"><th scope="row">{{ t(item.key) }}</th><td>{{ money(item.start,'B',3) }}</td><td>{{ money(item.end,'B',3) }}</td><td>{{ signed(item.change,3) }}</td></tr></tbody></table>
+                </div>
+                <p>{{ t('reserveCheckDefinition') }}</p>
+                <p>{{ t('reserveCheckInterpretation') }}</p>
+                <p>{{ t('reserveCheckReconcile') }} <a href="https://www.federalreserve.gov/releases/h41/" target="_blank" rel="noopener">{{ t('reserveCheckSource') }} ↗</a></p>
+              </div>
+            </details>
+          </div>
         </div>
-        <div class="funding"><span>{{ t('funding') }}</span><div class="funding-values"><div><span>SOFR − IORB</span><b>{{ fundingBp(latest.sofrIorbSpreadBp) }}</b></div><div><span>EFFR − IORB</span><b>{{ fundingBp(latest.effrIorbSpreadBp) }}</b></div><div><span class="funding-term" :title="t('standingRepoDefinition')" tabindex="0">{{ t('standingRepoUsage') }}</span><b>{{ money(latest.standingRepoUsage,'B',3) }}</b></div></div><small>{{ t('asOf') }} {{ latest.date }}</small></div>
+        <div class="funding">
+          <div class="funding-heading"><span>{{ t('funding') }}</span><span class="v2-term-info funding-info" tabindex="0" :aria-label="t('funding') + ': ' + fundingDefinitions" :data-tooltip="fundingDefinitions">ⓘ</span></div>
+          <div class="funding-values"><div><span>SOFR − IORB</span><b>{{ fundingBp(latest.sofrIorbSpreadBp) }}</b></div><div><span>EFFR − IORB</span><b>{{ fundingBp(latest.effrIorbSpreadBp) }}</b></div><div><span>{{ t('standingRepoUsage') }}</span><b>{{ money(latest.standingRepoUsage,'B',3) }}</b></div></div>
+          <small>{{ t('asOf') }} {{ latest.date }}</small>
+        </div>
       </section>
       <div class="two-col support">
         <section class="panel asset-mix"><div class="panel-heading"><div class="inline-title"><h2>{{ t('assetMix') }}</h2></div><span class="subtle">USD trillions</span></div><time-chart :all-rows="rows" :rows="visibleRows" field="totalAssets" :label="t('assetMix')" :lang="lang" :height="180" stacked tooltip-legend></time-chart><div class="mix-legend"><div v-for="(field,i) in ['treasurySecurities','mortgageBackedSecurities','assetMixOther']" :key="field"><span><i :class="'swatch swatch-'+i"></i>{{ t(field==='mortgageBackedSecurities'?'mbsShort':field) }}</span><strong>{{ money(latest[field],'T',3) }} <small>{{ (latest[field]/latest.totalAssets*100).toFixed(1) }}%</small></strong></div></div><p class="footnote">{{ t('mixNote') }}</p></section>
