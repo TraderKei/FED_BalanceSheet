@@ -20,7 +20,7 @@
     ['chartInvalidDates','시작일보다 늦은 종료일을 선택하고 주간 관측치가 2개 이상 포함되도록 해주세요.','Select an end date after the start date and include at least two weekly observations.'],
     ['pick','차트에서 두 날짜 선택','Pick two chart dates'],['pickHint','차트에서 시작일과 종료일을 차례로 선택하세요. 방향키와 Enter로도 선택할 수 있습니다.','Choose a start and end on the chart. Arrow keys and Enter also work.'],
     ['invalidDates','시작일 이전의 종료일은 선택할 수 없습니다. 두 날짜 모두 수요일 관측일이어야 합니다.','End must follow start. Both dates must be observed Wednesdays.'],
-    ['bridge','같은 기간 순유동성 변화 기여도','Same-period change bridge'],
+    ['bridge','순유동성 변화 기여도','Net liquidity change bridge'],
     ['bridgeNote','수식상의 변화 기여도이며 실제 시장 자금 유입액을 의미하지 않습니다.','Arithmetic contributions, not actual flows into financial markets.'],
     ['totalAssets','총자산','Total assets'],['treasuryGeneralAccount','재무부 일반계정 · TGA','Treasury General Account · TGA'],['onRrp','익일물 역레포 · ON RRP','Overnight reverse repos · ON RRP'],
     ['tgaShort','TGA','TGA'],['rrpShort','ON RRP','ON RRP'],['netChange','순유동성 변화','Net liquidity change'],
