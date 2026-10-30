@@ -79,7 +79,7 @@
     const driversExpanded=ref(false),allDrivers=ref(false),fullTable=ref(false),treasuryOpen=ref(false),translationDialog=ref(null),translationQuery=ref('');
     const checkedAt=computed(()=>meta.value.fetchedAt?.replace('T',' ').replace('Z',' UTC')||'N/A');let timer;
     const t=key=>tr(key,lang.value);
-    function setLang(value){lang.value=value;document.documentElement.lang=value;document.title=t('title')+' | FED Balance Sheet';storage.set('lang',value);}
+    function setLang(value){lang.value=value;document.documentElement.lang=value;document.title=document.body.dataset.dashboardVersion==='v2'?t('v2Title'):t('title')+' | FED Balance Sheet';storage.set('lang',value);}
     function setTheme(value){theme.value=value;document.body.classList.toggle('dark',value==='dark');storage.set('theme',value);}
     setLang(['ko','en'].includes(lang.value)?lang.value:'ko');setTheme(['dark','light'].includes(theme.value)?theme.value:'dark');
     const visibleRows=computed(()=>{const weeks={'6m':26,'1y':52,'2y':104,'5y':260};return range.value==='max'?rows.value:rows.value.slice(-(weeks[range.value]+1));});
