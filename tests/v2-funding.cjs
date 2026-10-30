@@ -23,7 +23,7 @@ const D=require('../assets/data.js');
     assert.ok(funding.includes('$'+(latest.standingRepoUsage/1000).toFixed(3)+'B'));
     assert.equal(await page.locator('.asset-mix .badge').count(),0);
     await page.getByRole('button',{name:'EN',exact:true}).click();
-    assert.ok((await page.locator('.funding').innerText()).includes('Standing repo usage'));
+    assert.ok((await page.locator('.funding').innerText()).includes('SRF usage'));
     for(const width of [1024,390,320]){
       await page.setViewportSize({width,height:844});
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow at ${width}`);
