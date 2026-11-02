@@ -11,7 +11,7 @@
   <style>
     body[data-dashboard-version="v2"]{--chart-mbs:#8b5cf6;--chart-other:#f59e0b}
     .v2-topbar-shell{background:var(--bg);border-bottom:1px solid var(--border)}
-    .v2-topbar{display:grid;grid-template-columns:minmax(190px,1fr) auto minmax(320px,1.25fr);align-items:center;gap:20px;max-width:1800px;margin:0 auto;min-height:76px;padding:7px 46px;background:transparent;border-bottom:0}
+    .v2-topbar{display:grid;grid-template-columns:minmax(190px,1fr) auto minmax(320px,1.25fr);align-items:center;gap:20px;max-width:none;margin:0 auto;min-height:62px;padding:0 20px;background:transparent;border-bottom:0}
     .v2-topbar .brand{justify-self:start;font-size:18px;line-height:1.2}
     .v2-topbar .brand small{font-size:10px;margin-top:1px}
     .v2-topbar .brandmark{border-bottom:3px solid #9eb8ff;flex-shrink:0;width:30px;height:30px;position:relative;display:block}
@@ -22,7 +22,7 @@
     .header-source-note{color:var(--muted);font-size:11px;line-height:1.4}
     .header-meta{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:3px 13px;color:var(--muted);font-size:11px}
     .header-meta strong{color:var(--black);font-weight:500}
-    main{padding-top:12px}
+    main{max-width:none;padding:13px 16px 14px}
     body{font-size:14px}
     .panel-heading h2{font-size:17px}
     .segmented button{font-size:12px;min-height:29px}
@@ -101,9 +101,8 @@
     @media(max-width:1279px){.cross-check{grid-template-columns:minmax(0,1.6fr) minmax(240px,1fr)}.cross-check .cross-title{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cross-check .cross-title h2{margin:0}}
     @media(max-width:767px){.cross-check{grid-template-columns:minmax(0,1fr);gap:16px}.reserve-summary{grid-template-columns:minmax(0,1fr);gap:12px}}
     @media(max-width:767px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi-grid .kpi:nth-child(2n){border-left:0;padding-left:0}.hero .english-label{display:inline}.chart-range-actions .range-control{flex-wrap:wrap}.chart-range-actions .range-control button{flex:1 1 30%}.bridge-panel>.panel-heading .segmented{flex-wrap:wrap}.v2-asset-drivers .driver-row{grid-template-columns:minmax(90px,1.4fr) minmax(55px,1fr) auto;gap:7px}.observation-calendar{left:0}}
-    @media(min-width:1600px){.v2-topbar{padding-left:58px;padding-right:58px}}
     @media(max-width:1100px){.v2-topbar{grid-template-columns:minmax(180px,1fr) auto;gap:12px}.v2-topbar .header-actions{justify-self:end}.header-context{grid-column:1/-1;justify-self:end}}
-    @media(max-width:767px){.v2-topbar{display:flex;flex-wrap:wrap;gap:8px;min-height:0;padding:8px 25px}.v2-topbar .brand{flex:1 1 100%}.v2-topbar .header-actions{width:auto;justify-content:center;margin:auto}.header-context{width:100%;align-items:flex-start;text-align:left}.header-meta{justify-content:flex-start}.main-kpi strong{font-size:36px}.kpi strong{font-size:22px}.bridge-item strong{font-size:23px}.chart-label{font-size:11px}}
+    @media(max-width:767px){.v2-topbar{display:flex;flex-wrap:wrap;gap:8px;min-height:0;padding:12px 16px 0}main{padding:10px}.v2-topbar .brand{flex:1 1 100%}.v2-topbar .header-actions{width:auto;justify-content:center;margin:auto}.header-context{width:100%;align-items:flex-start;text-align:left}.header-meta{justify-content:flex-start}.main-kpi strong{font-size:36px}.kpi strong{font-size:22px}.bridge-item strong{font-size:23px}.chart-label{font-size:11px}}
   </style>
   <script defer src="assets/vendor/vue-3.2.41.global.prod.js"></script>
   <script defer src="assets/i18n.js"></script>
