@@ -141,6 +141,14 @@
     const reserveCheckItems=computed(()=>['federalReserveNotes','reverseRepoForeignOfficial','otherLiabilities'].map(key=>({key,start:bridge.value.start?.[key]??null,end:bridge.value.end?.[key]??null,change:D.delta(bridge.value.end,bridge.value.start,key)})));
     const fundingDefinitions=computed(()=>['sofrIorbDefinition','effrIorbDefinition','standingRepoDefinition','fundingInterpretation'].map(t).join('\n\n'));
     const pulseState=computed(()=>!finite(bridge.value.change)?'unavailable':bridge.value.change>0?'rising':bridge.value.change<0?'falling':'unchanged');
+    const fundingTrend=computed(()=>{
+      const points=rows.value.slice(-13),keys=['sofrIorbSpreadBp','effrIorbSpreadBp'];
+      const vals=points.flatMap(r=>keys.map(k=>r[k])).filter(finite),lo=Math.min(-1,...vals)-1,hi=Math.max(1,...vals)+1;
+      const x=i=>45+i*490/Math.max(1,points.length-1),y=v=>15+(hi-v)/(hi-lo)*95;
+      const path=k=>{let active=false;return points.map((r,i)=>{if(!finite(r[k])){active=false;return '';}const d=(active?'L':'M')+x(i)+','+y(r[k]);active=true;return d;}).join(' ');};
+      const repo=points.map(r=>r.standingRepoUsage).filter(finite),maxRepo=repo.length?Math.max(...repo):null,prior=points.slice(-5,-1);
+      return {points,x,y,path,lo,hi,maxRepo,average:k=>prior.length===4&&prior.every(r=>finite(r[k]))?prior.reduce((a,r)=>a+r[k],0)/4:null};
+    });
     const stressItems=computed(()=>['primaryCredit','otherCreditExtensions','centralBankLiquiditySwaps'].map(key=>({key,...D.stress(rows.value,key)})));
     const assetTableKeys=computed(()=>fullTable.value?D.componentKeys:['treasurySecurities','mortgageBackedSecurities','assetMixOther']);
     const liabilityKeys=['reserveBalances','treasuryGeneralAccount','reverseRepoTotal','federalReserveNotes','otherLiabilities','totalCapital'];
@@ -182,7 +190,7 @@
     function closeOnBackdrop(event){if(event.target===translationDialog.value){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTranslations();}}
     onMounted(async()=>{if(onlineMode){try{const next=await D.getSnapshot();snapshot.value=next;rows.value=next.history;state.value=D.snapshotState(next);setPeriod(1);}catch{state.value=rows.value.length?'error':'empty';}}});
     onBeforeUnmount(()=>{clearTimeout(timer);});
-    return {snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,reserveCheckItems,fundingDefinitions,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,fundingBp,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
+    return {fundingTrend,snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,reserveCheckItems,fundingDefinitions,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,fundingBp,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
   }});
   app.mount('#app');
 })();
