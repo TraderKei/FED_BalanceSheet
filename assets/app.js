@@ -39,7 +39,7 @@
       });
       const active=computed(()=>props.rows[hover.value]);
       const previous=computed(()=>active.value?(props.allRows||props.rows).find(r=>r.date===D.iso(Date.parse(active.value.date)-7*86400000)):null);
-      const tooltipStyle=computed(()=>{const tip=props.stacked?285:195,point=x(hover.value),side=point+12+tip<=width.value?point+12:point-tip-12;return {left:Math.max(0,Math.min(side,width.value-tip))+'px'};});
+      const tooltipStyle=computed(()=>{const tip=props.stacked?285:195,point=x(hover.value),right=point+12+tip<=width.value,left=point-tip-12>=0,side=right?point+12:point-tip-12;return {left:Math.max(0,Math.min(side,width.value-tip))+'px',top:right||left?'22px':'-100px'};});
       const chartPoint=event=>{const box=host.value.querySelector('svg').getBoundingClientRect();return {x:(event.clientX-box.left)*width.value/box.width,y:(event.clientY-box.top)*H.value/box.height};};
       const indexAt=point=>Math.min(props.rows.length-1,Math.max(0,Math.round((point.x-left)/(width.value-left-right)*(props.rows.length-1))));
       function locate(event){if(!props.rows.length)return;hover.value=indexAt(chartPoint(event));if(drag.value)drag.value.end=hover.value;}
