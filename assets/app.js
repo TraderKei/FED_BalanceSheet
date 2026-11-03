@@ -184,7 +184,7 @@
       const canvas=document.createElement('canvas'),context=canvas.getContext('2d');
       context.font='10px sans-serif';
       const widest=Math.max(0,...stressItems.value.map(item=>context.measureText(t(item.state)+' · '+(item.percentile===null?'N/A':'P'+item.percentile)).width));
-      return Math.ceil(widest)+6+'px';
+      return Math.ceil(widest)+12+'px';
     });
     const assetTableKeys=computed(()=>fullTable.value?D.componentKeys:['treasurySecurities','mortgageBackedSecurities','assetMixOther']);
     const liabilityKeys=['reserveBalances','treasuryGeneralAccount','reverseRepoTotal','federalReserveNotes','otherLiabilities','totalCapital'];
