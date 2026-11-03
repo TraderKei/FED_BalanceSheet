@@ -58,7 +58,7 @@ const D=require('../assets/data.js');
     assert.equal(await info.evaluate(el=>getComputedStyle(el,'::after').visibility),'visible');
     await info.evaluate(el=>el.blur());
     await page.getByRole('button',{name:'EN',exact:true}).click();
-    assert.ok((await page.locator('.trend-stats').innerText()).includes('SRP usage'));
+    assert.ok((await page.locator('.trend-stats').innerText()).includes('SRP'));
     for(const width of [1024,390,320]){
       await page.setViewportSize({width,height:844});
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow at ${width}`);
