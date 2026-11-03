@@ -180,6 +180,12 @@
       return {points,x,y,path,lo,hi,maxRepo,latest:k=>[...daily].reverse().find(r=>finite(r[k])),average:k=>{const latest=[...daily].reverse().find(r=>finite(r[k]));const previous=daily.filter(r=>r.date<latest?.date&&finite(r[k])).slice(-20);return previous.length===20?previous.reduce((a,r)=>a+r[k],0)/20:null;}};
     });
     const stressItems=computed(()=>['primaryCredit','otherCreditExtensions','centralBankLiquiditySwaps'].map(key=>({key,...D.stress(rows.value,key)})));
+    const stressBadgeWidth=computed(()=>{
+      const canvas=document.createElement('canvas'),context=canvas.getContext('2d');
+      context.font='10px sans-serif';
+      const widest=Math.max(0,...stressItems.value.map(item=>context.measureText(t(item.state)+' · '+(item.percentile===null?'N/A':'P'+item.percentile)).width));
+      return Math.ceil(widest)+6+'px';
+    });
     const assetTableKeys=computed(()=>fullTable.value?D.componentKeys:['treasurySecurities','mortgageBackedSecurities','assetMixOther']);
     const liabilityKeys=['reserveBalances','treasuryGeneralAccount','reverseRepoTotal','federalReserveNotes','otherLiabilities','totalCapital'];
     const liabilityTotal=computed(()=>D.sum(liabilityKeys.map(k=>latest.value[k])));
@@ -220,7 +226,7 @@
     function closeOnBackdrop(event){if(event.target===translationDialog.value){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)closeTranslations();}}
     onMounted(async()=>{if(onlineMode){try{const next=await D.getSnapshot();snapshot.value=next;rows.value=next.history;state.value=D.snapshotState(next);setPeriod(1);}catch{state.value=rows.value.length?'error':'empty';}}});
     onBeforeUnmount(()=>{clearTimeout(timer);});
-    return {stressHelp,fundingTrendHelp,fundingTrend,fundingHover,hoverFundingPoint,keyFundingPoint,snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,reserveCheckItems,fundingDefinitions,stressItems,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,fundingBp,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
+    return {stressHelp,fundingTrendHelp,fundingTrend,fundingHover,hoverFundingPoint,keyFundingPoint,snapshot,meta,quality,onlineMode,previewMode,sourcesOpen,finite,tableNumber,pulseState,balanceDifference,balanceValid,visibleMissing,sourceRows,sourceInputs,historicalResidual,lang,theme,t,setLang,setTheme,rows,latest,availableDates,range,ranges,zoom,chartCustomRange,chartDraftStart,chartDraftEnd,chartDateError,chartRows,setRange,selectChartCustom,applyChartDates,zoomChart,resetZoom,period,state,stateOptions,notice,checkedAt,visibleRows,baseline,change,startDate,endDate,draftStart,draftEnd,dateError,driversExpanded,allDrivers,fullTable,treasuryOpen,bridge,bridgeItems,displayedDrivers,largestDriver,sameDirection,reserveCheckItems,fundingDefinitions,stressItems,stressBadgeWidth,assetTableKeys,liabilityKeys,liabilityTotal,translations,translationDialog,translationQuery,tone,fundingBp,barWidth,driverWidth,group,setPeriod,applyDates,refresh,reset,exportData,exportTranslations,openTranslations,closeTranslations,closeOnBackdrop,number,money,signed,pct};
   }});
   app.mount('#app');
 })();
