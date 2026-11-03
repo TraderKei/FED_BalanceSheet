@@ -12,7 +12,7 @@
     body[data-dashboard-version="v2"]{--chart-mbs:#8b5cf6;--chart-other:#f59e0b}
     .v2-topbar-shell{background:var(--bg);border-bottom:1px solid var(--border)}
     .v2-topbar{display:grid;grid-template-columns:minmax(190px,1fr) auto minmax(320px,1.25fr);align-items:center;gap:20px;max-width:none;margin:0 auto;min-height:62px;padding:0 20px;background:transparent;border-bottom:0}
-    .v2-topbar .brand{justify-self:start;font-size:18px;line-height:1.2}
+    .v2-topbar .brand{justify-self:start;font-size:23px;line-height:1.2}
     .v2-topbar .brand small{font-size:10px;margin-top:1px}
     .v2-topbar .brandmark{border-bottom:3px solid #9eb8ff;flex-shrink:0;width:30px;height:30px;position:relative;display:block}
     .v2-topbar .brandmark::before{content:"";border-bottom:7px solid #9eb8ff;border-left:14px solid #0000;border-right:14px solid #0000;position:absolute;top:1px;left:0}
@@ -102,7 +102,9 @@
     @media(max-width:767px){.cross-check{grid-template-columns:minmax(0,1fr);gap:16px}.reserve-summary{grid-template-columns:minmax(0,1fr);gap:12px}}
     @media(max-width:767px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi-grid .kpi:nth-child(2n){border-left:0;padding-left:0}.hero .english-label{display:inline}.chart-range-actions .range-control{flex-wrap:wrap}.chart-range-actions .range-control button{flex:1 1 30%}.bridge-panel>.panel-heading .segmented{flex-wrap:wrap}.v2-asset-drivers .driver-row{grid-template-columns:minmax(90px,1.4fr) minmax(55px,1fr) auto;gap:7px}.observation-calendar{left:0}}
     @media(max-width:1100px){.v2-topbar{grid-template-columns:minmax(180px,1fr) auto;gap:12px;padding-top:12px;padding-bottom:12px}.v2-topbar .header-actions{justify-self:end}.header-context{grid-column:1/-1;justify-self:end}}
+    @media(max-width:900px){.v2-topbar .brand{font-size:21px}}
     @media(max-width:767px){.v2-topbar{display:flex;flex-wrap:wrap;gap:8px;min-height:0;padding:12px 16px 0}main{padding:10px}.v2-topbar .brand{flex:1 1 100%}.v2-topbar .header-actions{width:auto;justify-content:center;margin:auto}.header-context{width:100%;align-items:flex-start;text-align:left}.header-meta{justify-content:flex-start}.main-kpi strong{font-size:36px}.kpi strong{font-size:22px}.bridge-item strong{font-size:23px}.chart-label{font-size:11px}}
+    @media(max-width:650px){.v2-topbar .brand{font-size:18px}}
   </style>
   <script defer src="assets/vendor/vue-3.2.41.global.prod.js"></script>
   <script defer src="assets/i18n.js"></script>
