@@ -39,7 +39,7 @@
       });
       const active=computed(()=>props.rows[hover.value]);
       const previous=computed(()=>active.value?(props.allRows||props.rows).find(r=>r.date===D.iso(Date.parse(active.value.date)-7*86400000)):null);
-      const tooltipStyle=computed(()=>({left:Math.min(Math.max(0,x(hover.value)+12),Math.max(0,width.value-(props.stacked?285:195)))+'px'}));
+      const tooltipStyle=computed(()=>{const tip=props.stacked?285:195,point=x(hover.value),side=point+12+tip<=width.value?point+12:point-tip-12;return {left:Math.max(0,Math.min(side,width.value-tip))+'px'};});
       const chartPoint=event=>{const box=host.value.querySelector('svg').getBoundingClientRect();return {x:(event.clientX-box.left)*width.value/box.width,y:(event.clientY-box.top)*H.value/box.height};};
       const indexAt=point=>Math.min(props.rows.length-1,Math.max(0,Math.round((point.x-left)/(width.value-left-right)*(props.rows.length-1))));
       function locate(event){if(!props.rows.length)return;hover.value=indexAt(chartPoint(event));if(drag.value)drag.value.end=hover.value;}
@@ -165,7 +165,17 @@
       const daily=snapshot.value?.fundingDaily||[],end=daily.at(-1)?.date,points=daily.filter(r=>Date.parse(r.date)>=Date.parse(end)-90*86400000),keys=['sofrIorbSpreadBp','effrIorbSpreadBp'];
       const vals=points.flatMap(r=>keys.map(k=>r[k])).filter(finite),lo=Math.min(-1,...vals)-1,hi=Math.max(1,...vals)+1;
       const x=i=>45+(Date.parse(points[i].date)-Date.parse(points[0].date))*490/Math.max(1,Date.parse(points.at(-1).date)-Date.parse(points[0].date)),y=v=>15+(hi-v)/(hi-lo)*95;
-      const path=k=>{let active=false;return points.map((r,i)=>{if(!finite(r[k])){active=false;return '';}const d=(active?'L':'M')+x(i)+','+y(r[k]);active=true;return d;}).join(' ');};
+      const path=k=>{
+        const segments=[];let segment=[];
+        const flush=()=>{if(segment.length)segments.push(segment);segment=[];};
+        points.forEach((r,i)=>finite(r[k])?segment.push({x:x(i),y:y(r[k])}):flush());flush();
+        return segments.map(data=>{
+          if(data.length===1)return `M${data[0].x},${data[0].y}`;
+          const slopes=data.slice(1).map((p,i)=>(p.y-data[i].y)/(p.x-data[i].x));
+          const tangents=data.map((p,i)=>i===0?slopes[0]:i===data.length-1?slopes.at(-1):slopes[i-1]*slopes[i]<=0?0:2*slopes[i-1]*slopes[i]/(slopes[i-1]+slopes[i]));
+          return 'M'+data[0].x+','+data[0].y+data.slice(1).map((p,i)=>{const a=data[i],dx=(p.x-a.x)/3;return ` C${a.x+dx},${a.y+tangents[i]*dx} ${p.x-dx},${p.y-tangents[i+1]*dx} ${p.x},${p.y}`;}).join('');
+        }).join(' ');
+      };
       const repo=points.map(r=>r.standingRepoUsage).filter(finite),maxRepo=repo.length?Math.max(...repo):null,prior=points.slice(-21,-1);
       return {points,x,y,path,lo,hi,maxRepo,latest:k=>[...daily].reverse().find(r=>finite(r[k])),average:k=>{const latest=[...daily].reverse().find(r=>finite(r[k]));const previous=daily.filter(r=>r.date<latest?.date&&finite(r[k])).slice(-20);return previous.length===20?previous.reduce((a,r)=>a+r[k],0)/20:null;}};
     });
