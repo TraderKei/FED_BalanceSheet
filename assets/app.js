@@ -142,7 +142,25 @@
     const fundingDefinitions=computed(()=>['sofrIorbDefinition','effrIorbDefinition','standingRepoDefinition','fundingInterpretation'].map(t).join('\n\n'));
     const pulseState=computed(()=>!finite(bridge.value.change)?'unavailable':bridge.value.change>0?'rising':bridge.value.change<0?'falling':'unchanged');
     const stressHelp=computed(()=>lang.value==='ko'?'프라이머리 크레딧: 재무상태가 대체로 건전한 예금취급기관에 연준이 담보를 받고 제공하는 대출의 잔액입니다.\n\n기타 신용공여: H.4.1에서 별도로 분류하는 기타 대출 잔액입니다. 포함 범위는 해당 발표의 주석을 따르며, 모든 긴급지원의 합계는 아닙니다.\n\n중앙은행 유동성 스와프: 연준과 해외 중앙은행 간 통화 교환 약정에 따른 미상환 잔액으로, 해외 달러 유동성 공급 등을 보여줍니다.\n\n금액은 수요일 잔액, 옆의 증감은 전주 대비 변화입니다. B는 10억 달러입니다.\n52주 백분위(P)는 최근 52주 내 과거 유효 관측 중 현재보다 낮은 값의 비율입니다. 동률은 낮은 값에 포함하지 않습니다. 최소 26개 관측이 있어야 분류합니다.\n보통: P95 미만, 주의: P95 이상, 높음: P99 이상. 분류는 반올림 전 값으로 계산합니다. 상대적 이용 수준이며 위기 발생 확률이나 안전 판정이 아닙니다.':'Primary credit: collateralized Federal Reserve loans outstanding to generally sound depository institutions.\n\nOther credit extensions: a separate H.4.1 loan category, defined by the release notes; not the total of all emergency support.\n\nCentral bank liquidity swaps: outstanding currency swap arrangements with foreign central banks, including dollar liquidity provision abroad.\n\nAmounts are Wednesday balances; changes compare with the prior week. B means USD billions.\n52-week percentile (P) is the share of prior valid observations in the window strictly below the current value. Ties are excluded from the lower count. At least 26 observations are required.\nNormal: below P95; elevated: P95 or above; high: P99 or above, using unrounded values. This measures relative usage, not crisis probability or a safety assessment.');
-    const fundingTrendHelp=computed(()=>lang.value==='ko'?'SOFR: 미국 국채를 담보로 하는 익일물 자금조달 금리.\nEFFR: 무담보 익일물 연방기금 거래의 실효금리.\nIORB: 연준이 은행 지급준비금에 지급하는 금리.\nSRP: 연준 상설레포의 일별 낙찰액 합계.\n\n위 그래프: 실선은 SOFR − IORB, 점선은 EFFR − IORB이며 단위는 bp(1bp=0.01%p)입니다. 계산은 (시장금리−IORB)×100입니다. SOFR−IORB는 국채 담보 조달비용, EFFR−IORB는 무담보 연방기금 조달비용이 준비금 이자율보다 얼마나 높거나 낮은지 나타냅니다. +5bp는 IORB보다 0.05%p 높음, −2bp는 0.02%p 낮음, 0은 같음을 뜻합니다.\n아래 막대: SRP 이용액(백만 달러). 금리 그래프와 단위·축이 다릅니다.\n\n금리 차이 상승과 SRP 이용 증가가 지속·동반되는지 확인합니다. 단독 수치만으로 준비금 부족이나 위기를 판정하지 않습니다.\n최신 값은 각 지표의 최근 유효 관측이며, 평균은 이를 제외한 직전 20개 유효 관측입니다. 발표 시차로 관측일이 다를 수 있습니다.':'SOFR: overnight Treasury-secured funding rate.\nEFFR: effective unsecured overnight federal funds rate.\nIORB: interest paid by the Fed on reserve balances.\nSRP: total accepted amount in daily standing repo operations.\n\nUpper chart: solid SOFR − IORB and dashed EFFR − IORB, in basis points (1 bp = 0.01 percentage point). Calculated as (market rate−IORB)×100. SOFR−IORB compares Treasury-secured funding costs with reserve remuneration; EFFR−IORB compares unsecured federal funds costs. +5 bp means 0.05 percentage point above IORB; −2 bp means 0.02 point below; zero means equal.\nLower bars: SRP usage in USD millions, on a separate scale.\n\nWatch for persistent, concurrent increases in spreads and SRP usage. No single value diagnoses reserve scarcity or a crisis.\nLatest values use each series’ latest valid observation; averages exclude it and use the prior 20 valid observations. Publication lags can differ.');
+    const fundingTrendHelp=computed(()=>lang.value==='ko'?'SOFR: 미국 국채를 담보로 하는 익일물 자금조달 금리.\nEFFR: 무담보 익일물 연방기금 거래의 실효금리.\nIORB: 연준이 은행 지급준비금에 지급하는 금리.\nSRP: 연준 상설레포의 일별 낙찰액 합계.\n\n금리 차이 상승과 SRP 이용 증가가 지속·동반되는지 확인합니다. 단독 수치만으로 준비금 부족이나 위기를 판정하지 않습니다.\n최신 값은 각 지표의 최근 유효 관측이며, 평균은 이를 제외한 직전 20개 유효 관측입니다. 발표 시차로 관측일이 다를 수 있습니다.':'SOFR: overnight Treasury-secured funding rate.\nEFFR: effective unsecured overnight federal funds rate.\nIORB: interest paid by the Fed on reserve balances.\nSRP: total accepted amount in daily standing repo operations.\n\nWatch for persistent, concurrent increases in spreads and SRP usage. No single value diagnoses reserve scarcity or a crisis.\nLatest values use each series’ latest valid observation; averages exclude it and use the prior 20 valid observations. Publication lags can differ.');
+    const fundingHover=ref(-1);
+    function hoverFundingPoint(event){
+      const points=fundingTrend.value.points;
+      if(!points.length)return;
+      const box=event.currentTarget.getBoundingClientRect();
+      const x=(event.clientX-box.left)*570/box.width;
+      if(x<45||x>535){fundingHover.value=-1;return;}
+      fundingHover.value=points.reduce((best,_,i)=>Math.abs(fundingTrend.value.x(i)-x)<Math.abs(fundingTrend.value.x(best)-x)?i:best,0);
+    }
+    function keyFundingPoint(event){
+      if(!['ArrowLeft','ArrowRight','Home','End','Escape'].includes(event.key))return;
+      event.preventDefault();
+      const last=fundingTrend.value.points.length-1;
+      if(event.key==='Escape')fundingHover.value=-1;
+      else if(event.key==='Home')fundingHover.value=0;
+      else if(event.key==='End')fundingHover.value=last;
+      else fundingHover.value=Math.max(0,Math.min(last,(fundingHover.value<0?last:fundingHover.value)+(event.key==='ArrowLeft'?-1:1)));
+    }
     const fundingTrend=computed(()=>{
       const daily=snapshot.value?.fundingDaily||[],end=daily.at(-1)?.date,points=daily.filter(r=>Date.parse(r.date)>=Date.parse(end)-90*86400000),keys=['sofrIorbSpreadBp','effrIorbSpreadBp'];
       const vals=points.flatMap(r=>keys.map(k=>r[k])).filter(finite),lo=Math.min(-1,...vals)-1,hi=Math.max(1,...vals)+1;
