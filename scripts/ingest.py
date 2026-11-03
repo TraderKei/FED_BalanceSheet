@@ -197,6 +197,16 @@ def read_standing_repo(payloads):
     for operation in operations.values():daily[operation['operationDate']].append(operation)
     return {date:{'value':sum(op['totalAmtAccepted'] for op in ops)/1_000_000,'operationIds':[op['operationId'] for op in ops]} for date,ops in daily.items()},dict(rejected)
 
+def normalize_funding_daily(sofr,effr,iorb,repo):
+    rows=[]
+    for date in sorted(set(sofr)|set(effr)|set(repo)):
+        row={'date':date,'sofr':sofr.get(date),'effr':effr.get(date),'iorb':iorb.get(date),'standingRepoUsage':repo.get(date,{}).get('value'),'standingRepoOperationIds':repo.get(date,{}).get('operationIds',[])}
+        for rate,key in [('sofr','sofrIorbSpreadBp'),('effr','effrIorbSpreadBp')]:
+            row[key]=round((row[rate]-row['iorb'])*100,4) if finite(row[rate]) and finite(row['iorb']) else None
+        rows.append(row)
+    return rows
+
+
 def normalize(series,rrp,sofr=None,effr=None,iorb=None,standing_repo=None):
     sofr=sofr or {};effr=effr or {};iorb=iorb or {};standing_repo=standing_repo or {}
     dates=sorted(d for d,v in series['totalAssets'].items() if d>=START and finite(v))
@@ -303,9 +313,10 @@ def run(root=ROOT,reuse_raw=False):
         manifests.append({'id':f'onrrp-{year}','url':url,'path':str(path.relative_to(root)).replace('\\','/'),'sha256':hashlib.sha256(data).hexdigest(),'returnedOperations':len(ops)})
         print(f'NY Fed {year}: {len(ops)} operations',flush=True)
     rrp,rejected=read_rrp(payloads)
+    funding_end=fetched[:10]
     funding_rates={}
     for rate_type,url in [('SOFR',SOFR_URL),('EFFR',EFFR_URL)]:
-        query=urllib.parse.urlencode({'startDate':'2021-07-28','endDate':latest})
+        query=urllib.parse.urlencode({'startDate':'2021-07-28','endDate':funding_end})
         source_url=url+'?'+query;path=raw/f'{rate_type.lower()}.json'
         prior=sorted((root/'data'/'raw').glob(f'*/{rate_type.lower()}.json')) if reuse_raw else []
         if prior: data=prior[-1].read_bytes();atomic_write(path,data)
@@ -321,8 +332,8 @@ def run(root=ROOT,reuse_raw=False):
     manifests.append({'id':'iorb','url':PRATES_URL,'path':str(iorb_path.relative_to(root)).replace('\\','/'),'sha256':hashlib.sha256(iorb_path.read_bytes()).hexdigest(),'seriesId':'RESBM_N.D','observations':len(iorb)})
     print(f'IORB: {len(iorb)} daily rates',flush=True)
     repo_payloads=[]
-    for year in range(2021,int(latest[:4])+1):
-        start=max('2021-07-28',f'{year}-01-01');end=min(latest,f'{year}-12-31')
+    for year in range(2021,int(funding_end[:4])+1):
+        start=max('2021-07-28',f'{year}-01-01');end=min(funding_end,f'{year}-12-31')
         query=urllib.parse.urlencode({'startDate':start,'endDate':end,'operationTypes':'Repo'})
         url=RRP_URL+'?'+query;path=raw/f'standing-repo-{year}.json'
         prior=sorted((root/'data'/'raw').glob(f'*/standing-repo-{year}.json')) if reuse_raw else []
@@ -341,7 +352,9 @@ def run(root=ROOT,reuse_raw=False):
     provenance={'sources':manifests,'seriesMap':series_meta,'onRrp':{'endpoint':RRP_URL,'filters':{'operationType':'Reverse Repo','term':'Overnight','auctionStatus':'Results'},'field':'totalAmtAccepted','inputUnit':'USD','outputUnit':'USD millions','conversion':'divide by 1,000,000','join':'operationDate = H.4.1 Wednesday, no carry-forward; sum distinct operation IDs on same date'},'derived':{'netLiquidity':'totalAssets - treasuryGeneralAccount - onRrp','assetMixOther':'totalAssets - treasurySecurities - mortgageBackedSecurities','otherAssetItems':' + '.join(OTHER_ASSETS),'otherLiabilities':' + '.join(OTHER_LIABS)},'notes':['Unavailable and discontinued SDMX observations remain null, including pre-inception Main Street facility observations.','Pre-2020 other credit facilities are not forced into the current asset breakdown; missing coverage remains N/A.','Table 5 uses Federal Reserve notes net of Bank holdings, not Table 1 currency in circulation.','H.4.1 amounts are rounded to USD millions; 5 million tolerance is used for reported sums.','NY Fed overnight operations may span multiple calendar days on holidays; filter term=Overnight, not termCalenderDays=1.']}
     provenance['funding']={'sofr':SOFR_URL,'effr':EFFR_URL,'iorb':{'url':PRATES_URL,'seriesId':'RESBM_N.D'},'standingRepo':{'url':RRP_URL,'filters':{'operationType':'Repo','term':'Overnight','auctionStatus':'Results','smallValueExercise':'excluded'},'field':'totalAmtAccepted','inputUnit':'USD','outputUnit':'USD millions'},'join':'Effective date or operation date equals the H.4.1 Wednesday; no carry-forward','spreads':'(SOFR or EFFR minus IORB) × 100 basis points'}
     provenance['derived'].update({'sofrIorbSpreadBp':'(sofr - iorb) × 100','effrIorbSpreadBp':'(effr - iorb) × 100'})
-    snapshot={'meta':meta,'history':rows,'quality':quality,'provenance':provenance}
+    snapshot={'meta':meta,'history':rows,'quality':quality,'provenance':provenance,'fundingDaily':normalize_funding_daily(funding_rates['SOFR'],funding_rates['EFFR'],iorb,standing_repo)}
+    provenance['funding']['dailyJoin']='Same effective / operation date; no carry-forward; distinct repo operation IDs summed; missing remains null'
+    meta['fundingObservationDate']=snapshot['fundingDaily'][-1]['date']
     encoded=json.dumps(snapshot,ensure_ascii=False,separators=(',',':'),allow_nan=False)
     atomic_write(raw/'manifest.json',json.dumps({'fetchedAt':fetched,'sources':manifests},ensure_ascii=False,indent=2))
     atomic_write(root/'data'/'normalized'/f'h41-{release}.json',encoded)

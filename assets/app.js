@@ -142,12 +142,12 @@
     const fundingDefinitions=computed(()=>['sofrIorbDefinition','effrIorbDefinition','standingRepoDefinition','fundingInterpretation'].map(t).join('\n\n'));
     const pulseState=computed(()=>!finite(bridge.value.change)?'unavailable':bridge.value.change>0?'rising':bridge.value.change<0?'falling':'unchanged');
     const fundingTrend=computed(()=>{
-      const points=rows.value.slice(-13),keys=['sofrIorbSpreadBp','effrIorbSpreadBp'];
+      const daily=snapshot.value?.fundingDaily||[],end=daily.at(-1)?.date,points=daily.filter(r=>Date.parse(r.date)>=Date.parse(end)-90*86400000),keys=['sofrIorbSpreadBp','effrIorbSpreadBp'];
       const vals=points.flatMap(r=>keys.map(k=>r[k])).filter(finite),lo=Math.min(-1,...vals)-1,hi=Math.max(1,...vals)+1;
-      const x=i=>45+i*490/Math.max(1,points.length-1),y=v=>15+(hi-v)/(hi-lo)*95;
+      const x=i=>45+(Date.parse(points[i].date)-Date.parse(points[0].date))*490/Math.max(1,Date.parse(points.at(-1).date)-Date.parse(points[0].date)),y=v=>15+(hi-v)/(hi-lo)*95;
       const path=k=>{let active=false;return points.map((r,i)=>{if(!finite(r[k])){active=false;return '';}const d=(active?'L':'M')+x(i)+','+y(r[k]);active=true;return d;}).join(' ');};
-      const repo=points.map(r=>r.standingRepoUsage).filter(finite),maxRepo=repo.length?Math.max(...repo):null,prior=points.slice(-5,-1);
-      return {points,x,y,path,lo,hi,maxRepo,average:k=>prior.length===4&&prior.every(r=>finite(r[k]))?prior.reduce((a,r)=>a+r[k],0)/4:null};
+      const repo=points.map(r=>r.standingRepoUsage).filter(finite),maxRepo=repo.length?Math.max(...repo):null,prior=points.slice(-21,-1);
+      return {points,x,y,path,lo,hi,maxRepo,latest:k=>[...daily].reverse().find(r=>finite(r[k])),average:k=>{const latest=[...daily].reverse().find(r=>finite(r[k]));const previous=daily.filter(r=>r.date<latest?.date&&finite(r[k])).slice(-20);return previous.length===20?previous.reduce((a,r)=>a+r[k],0)/20:null;}};
     });
     const stressItems=computed(()=>['primaryCredit','otherCreditExtensions','centralBankLiquiditySwaps'].map(key=>({key,...D.stress(rows.value,key)})));
     const assetTableKeys=computed(()=>fullTable.value?D.componentKeys:['treasurySecurities','mortgageBackedSecurities','assetMixOther']);
