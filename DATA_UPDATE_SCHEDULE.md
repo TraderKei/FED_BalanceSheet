@@ -34,3 +34,10 @@
 5. NIST 서머타임 규칙: https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst — 미국 서머타임 전환 날짜와 시각.
 
 6. 뉴욕 연은 ON RRP 운용 시작 발표: https://www.newyorkfed.org/markets/opolicy/operating_policy_130920.html — 2013-09-23 주부터 일별 운용.
+
+## 일별 자금시장 패널
+
+- `fundingDaily`는 SOFR·EFFR의 거래 기준일, 해당일 IORB, SRP 운영일을 날짜별로 결합한다. 주간 H.4.1의 마지막 관측일로 자르지 않는다.
+- 각 지표의 가장 최근 유효값과 관측일을 따로 표시한다. 누락은 null/N/A로 유지하며 다른 날짜 값으로 채우지 않는다.
+- 최근 13주(91일)의 일별 추이와 최신 관측을 제외한 직전 20개 유효 관측 평균을 표시한다. SRP는 동일일 고유 운영 ID별 낙찰액 합계이며 소액 시험 운영은 제외한다.
+- `RefreshData.cmd` 및 서버 새로고침은 주간·일간 자료를 함께 수집한다. file:// 화면은 저장된 스냅샷을 사용한다. 예약 실행을 새로 설정한 것은 아니다.
