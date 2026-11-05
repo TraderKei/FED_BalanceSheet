@@ -3,6 +3,7 @@
   const rows = [
     ['title','연준 대차대조표','FED Balance Sheet'],
     ['v2Title','미국 연준 유동성 대시보드','U.S. Fed Liquidity Dashboard'],
+    ['v3Title','Fed 유동성 분석','Fed Liquidity Analysis'],
     ['workspace','미국 유동성 모니터','US LIQUIDITY MONITOR'],
     ['overview','유동성 개요','Liquidity overview'],
     ['weekly','주간 · 수요일 잔액','Weekly · Wednesday levels'],

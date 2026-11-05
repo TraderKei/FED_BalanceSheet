@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Federal Reserve balance sheet and net liquidity dashboard — official H.4.1 and New York Fed data.">
-  <title>미국 연준 유동성 대시보드</title>
+  <title>Fed 유동성 분석</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="assets/theme-tokens.css">
   <link rel="stylesheet" href="assets/dashboard.css">
@@ -123,11 +123,11 @@
   <script defer src="assets/data.js"></script>
   <script defer src="assets/app.js"></script>
 </head>
-<body class="dark" data-dashboard-version="v2">
+<body class="dark" data-dashboard-version="v2" data-dashboard-title-key="v3Title">
 <noscript>이 화면은 JavaScript가 필요합니다. / Please enable JavaScript.</noscript>
 <div id="app" v-cloak>
   <header class="v2-topbar-shell"><div class="topbar v2-topbar">
-    <a href="#main" class="brand" :aria-label="t('v2Title')"><span class="brandmark" aria-hidden="true"></span><span>{{ t('v2Title') }}</span></a>
+    <a href="#main" class="brand" :aria-label="t('v3Title')"><span class="brandmark" aria-hidden="true"></span><span>{{ t('v3Title') }}</span></a>
     <div class="header-actions">
       <div class="segmented" :aria-label="t('theme')"><button @click="setTheme('dark')" :aria-pressed="theme==='dark'" :class="{active:theme==='dark'}">◐ <span>{{ t('dark') }}</span></button><button @click="setTheme('light')" :aria-pressed="theme==='light'" :class="{active:theme==='light'}">☼ <span>{{ t('light') }}</span></button></div>
       <div class="segmented" :aria-label="t('language')"><button @click="setLang('ko')" :aria-pressed="lang==='ko'" :class="{active:lang==='ko'}">한글</button><button @click="setLang('en')" :aria-pressed="lang==='en'" :class="{active:lang==='en'}">EN</button></div>
