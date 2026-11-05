@@ -1,5 +1,7 @@
 # FED_BalanceSheet
 
+> 이 문서는 초기 제품 기획과 구현 제안을 보존한 참고 자료다. React/Next.js 제안, mock JSON 계약, `GET /api/h41?range=2y`, 주간 갱신안은 현재 v3 회사 운영 사양이 아니다. 실제 구현은 [v3 연결 명세](v3-implementation-handoff.md), 매일 **07:15 KST 전체 이력 재수집**과 Altibase 적재는 [운영 명세](fed-balance-sheet-v3-operations.md)를 따른다.
+
 `FED_BalanceSheet`는 미 연준 대차대조표(H.4.1)를 트레이더와 금융정보 단말 사용자가 빠르게 해석할 수 있도록 제공하는 현대적인 웹형 대시보드 프로젝트다. 이 문서는 제품 범위, 데이터 계약, 화면 구조와 첫 구현 순서를 정의하며, Codex가 별도의 기획 보완 없이 MVP 개발을 시작할 수 있는 수준을 목표로 한다.
 
 ## 1. 프로젝트 목표
@@ -483,10 +485,10 @@ FederalReserve.gov H.4.1 CSV/SDMX + New York Fed ON RRP daily result
   → dashboard API
 ```
 
-### 갱신 주기
+### 갱신 주기 — 초기 제안, 회사 운영에는 적용하지 않음
 
-- H.4.1 발표 주기에 맞춘 **weekly refresh**. ON RRP 일별 거래 결과는 해당 수요일 관측값을 선택해 결합한다.
-- 권장 실행 시점: 목요일 공식 발표 이후. 시간은 배포 환경에서 설정값으로 관리하고 release calendar에 의존한다.
+- 회사 운영은 **매일 07:15 KST**에 H.4.1, ON RRP, SOFR, EFFR, IORB, 익일물 레포의 **v3 사용 범위 전체를 다시 수집**한다. 원천별 시작일과 날짜별 조회 범위는 [운영 명세](fed-balance-sheet-v3-operations.md#1-수집-일정과-범위)를 따른다.
+- 전체 이력으로 JSON을 다시 만들고 화면 데이터가 바뀌었을 때만 Altibase의 현재 제공 버전을 교체한다.
 - 실패 시 지수 백오프로 재시도하되 원천 서버를 과도하게 호출하지 않는다.
 - 새 snapshot이 검증을 통과하기 전까지 기존 정상 snapshot을 유지한다.
 - 최신 관측일이 예상보다 8일 이상 오래되면 `stale` 경고를 표시한다.
@@ -582,6 +584,6 @@ Codex는 다음 순서로 첫 실행 가능한 화면을 만든다.
 
 ## 15. 로컬 변경 자동 푸시
 
-`FED_BalanceSheet_AutoPush` Windows 작업은 로그인 시 [`scripts/auto-push.ps1`](scripts/auto-push.ps1)을 실행한다. 파일 변경이 10초 동안 멈추면 Git이 이미 추적하는 수정·삭제 파일과 사용자가 직접 스테이징한 새 파일을 커밋해 `origin/main`에 푸시한다. 스테이징하지 않은 새 파일은 자동 업로드하지 않는다. 연결 오류가 나면 60초 뒤 다시 시도하며, 실행 기록은 Git에서 제외한 `auto-push.log`에 남긴다. 원격 브랜치에 새 커밋이 있으면 자동 병합이나 강제 푸시를 하지 않고 로그에 오류를 기록한다.
+`FED_BalanceSheet_AutoPush` Windows 작업은 로그인 시 [`scripts/auto-push.ps1`](../scripts/auto-push.ps1)을 실행한다. 파일 변경이 10초 동안 멈추면 Git이 이미 추적하는 수정·삭제 파일과 사용자가 직접 스테이징한 새 파일을 커밋해 `origin/main`에 푸시한다. 스테이징하지 않은 새 파일은 자동 업로드하지 않는다. 연결 오류가 나면 60초 뒤 다시 시도하며, 실행 기록은 Git에서 제외한 `auto-push.log`에 남긴다. 원격 브랜치에 새 커밋이 있으면 자동 병합이나 강제 푸시를 하지 않고 로그에 오류를 기록한다.
 
 작업이 실행 중인 경우에만 변경 직후 동기화되며, Windows에서 로그아웃한 동안의 변경은 다음 로그인 후 처리한다. 일회성 수동 실행: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/auto-push.ps1 -Once`.

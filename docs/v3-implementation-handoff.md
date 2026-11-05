@@ -2,11 +2,13 @@
 
 이 문서는 [운영 작업 명세](fed-balance-sheet-v3-operations.md)를 현재 코드에 연결하기 위한 개발팀용 안내다. 최종 화면은 [FedBalanceSheet_v3.html](../FedBalanceSheet_v3.html)이다.
 
+회사 예약 작업은 **매일 07:15 KST**에 실행한다. **매 실행마다 아래 표의 시작일부터 최신 공개일까지 전체 이력을 다시 수집**해 JSON 한 벌을 만든다. 날짜를 지정하는 원천은 여러 요청으로 나눌 수 있으나 최근 며칠치만 받는 증분 수집으로 바꾸지 않는다. 화면 데이터가 달라졌을 때만 새 JSON 버전을 Altibase에 적재한다.
+
 ## 1. 현재 구현과 회사에서 추가할 부분
 
 | 단계 | 현재 구현 | 회사 운영에 필요한 작업 |
 |---|---|---|
-| 원천 수집 | [scripts/ingest.py](../scripts/ingest.py)가 H.4.1, ON RRP, SOFR, EFFR, IORB, 익일물 레포를 다운로드 | 매일 07:15 KST 실행하도록 예약 |
+| 원천 수집 | [scripts/ingest.py](../scripts/ingest.py)가 H.4.1, ON RRP, SOFR, EFFR, IORB, 익일물 레포의 전체 사용 이력을 다운로드 | 매일 07:15 KST 실행하도록 예약하고, 매번 전체 사용 이력을 다시 조회 |
 | 정리·검증 | 같은 코드가 수요일 결합, 단위 변환, 결측 처리, 대사 검증 수행 | 회사 실행 환경과 실패 알림 연결 |
 | 화면용 JSON 생성 | 같은 코드가 `meta`, `history`, `quality`, `provenance`, `fundingDaily` 한 벌을 [latest.json](../data/normalized/latest.json)에 저장 | 변경 판단과 Altibase 조각 저장 추가 |
 | 화면 응답 | [scripts/serve.py](../scripts/serve.py)는 로컬 JSON 파일을 읽어 `/api/h41`에 응답 | 회사 서버가 Altibase의 현재 버전 조각을 합쳐 같은 응답 제공 |
@@ -16,7 +18,7 @@
 
 ## 2. 원천별 수집 설정
 
-정확한 URL과 필터는 [scripts/ingest.py](../scripts/ingest.py)의 상수를 기준으로 한다. 원천의 발표 주기는 [발표 주기 문서](DATA_UPDATE_SCHEDULE.md)를 참고한다.
+정확한 URL과 필터는 [scripts/ingest.py](../scripts/ingest.py)의 상수를 기준으로 한다. 아래 범위는 **최초 적재와 매일 재수집에 똑같이 적용**한다. 원천의 발표 주기는 [발표 주기 문서](DATA_UPDATE_SCHEDULE.md)를 참고한다.
 
 | 데이터 | 원천 주소 | 현재 요청 범위 |
 |---|---|---|

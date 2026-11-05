@@ -4,8 +4,8 @@
 
 1. [v3 사내 운영 작업 명세](fed-balance-sheet-v3-operations.md)에서 매일 07:15 KST 수집, 전체 이력, 검증 주체, Altibase 칼럼, 버전 교체 순서를 확인한다.
 2. [v3 구현 연결 명세](v3-implementation-handoff.md)에서 실제 파일, 데이터 구조, 수집 프로그램과 화면 서버의 연결 지점을 확인한다.
-3. [원천 데이터 발표 주기](DATA_UPDATE_SCHEDULE.md)는 발표 시각과 자료 기준일을 확인할 때 참고한다.
-4. [기존 프로젝트 README](PROJECT-README.md)와 [기존 UI 안내](UI-GUIDE.txt)는 원문을 복사한 참고 자료다. 초기 설계와 v1 안내가 포함되어 있으므로 회사 운영 일정, API, 화면 파일, 수집 시작일은 위 1~2번 문서를 따른다.
+3. [원천 데이터 발표 주기](DATA_UPDATE_SCHEDULE.md)에서 공식 발표 시각과 회사의 매일 07:15 KST 전체 이력 수집 시각을 구분해 확인한다.
+4. [기존 프로젝트 README](PROJECT-README.md)와 [기존 UI 안내](UI-GUIDE.txt)는 초기 설계와 v1 안내를 보존한 참고 자료다. 회사 운영 일정, API, 화면 파일, 수집 시작일은 위 1~2번 문서를 따른다.
 
 ## 실제 구현 파일
 

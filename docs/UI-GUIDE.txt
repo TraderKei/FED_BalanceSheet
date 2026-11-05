@@ -1,5 +1,11 @@
 FED Balance Sheet — 실제 공식 데이터 연결
 
+[안내] 아래 내용은 기존 v1 로컬 실행 안내를 보존한 참고 자료입니다.
+회사 v3 운영은 한국시간 매일 오전 7:15에 6개 원천의 사용 이력 전체를
+다시 수집합니다. 화면 데이터가 바뀔 때만 Altibase JSON 버전을 교체합니다.
+현재 v3의 화면과 회사 운영 세부 사항은 docs/README.md 및
+docs/v3-implementation-handoff.md를 따르세요.
+
 1. 화면 실행
    FedBalanceSheet_v1.html: 저장된 최신 공식 수집값을 인터넷 없이 표시합니다.
    StartDashboard.cmd: 로컬 서버를 시작하고 브라우저를 엽니다.
