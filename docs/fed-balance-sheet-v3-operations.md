@@ -21,6 +21,25 @@
 
 발표일, 관측일, 금리 적용일을 구분한다. 값이 없는 날은 `null`로 유지하고 실제 `0`과 구분한다. 수요일 값이 없을 때 다른 날짜의 값으로 채우지 않는다. [현재 수집·정리 코드](../scripts/ingest.py#L200) · [상설 레포 도입 공지](https://www.newyorkfed.org/markets/opolicy/operating_policy_210728)
 
+### 휴장·미발표일의 원천별 입수 처리
+
+아래는 **현재 로컬 수집기 `scripts/ingest.py`의 동작**을 기준으로 한 운영 규칙이다. 여섯 원천의 휴일이 반드시 같지는 않다. 수집기는 휴일 달력으로 날짜를 미리 건너뛰지 않고 매번 공식 원천을 조회한다. 원천에 없는 관측치를 만들거나 전일 값으로 채우지 않는다. 원천 응답의 다운로드·형식 오류와 정상적인 관측치 부재는 구분한다.
+
+| 원천 | 실제 수집·결합 방식 | 휴장·미발표 시 처리 |
+|---|---|---|
+| **H.4.1** | 전체 XML에서 `Wednesday level` 계열을 읽고 수요일 잔액으로 주간 행을 만든다. XML의 준비일(`Prepared`)을 발표일로 기록한다. | 목요일 공휴일로 발표가 이연되거나 새 XML에 아직 수요일 관측치가 없으면 이전 최신 주간 관측일을 유지한다. 과거 수요일의 원천값이 비어 있으면 해당 필드는 `null`이다. [연준 발표 일정](https://www.federalreserve.gov/releases/h41/) |
+| **ON RRP** | 뉴욕 연은의 `Reverse Repo`·`Overnight`·`Results` 거래를 운영 ID별로 중복 제거한 뒤 `operationDate`별 낙찰액을 합산한다. 주간 행에는 같은 수요일 결과만 붙인다. | 운영하지 않은 날 또는 결과가 없는 날은 `null`이다. 수요일 결과가 없으면 `netLiquidity`도 `null`이며, 직전 거래일 금액이나 H.4.1의 역레포 잔액으로 대체하지 않는다. 원천이 명시한 낙찰액 `0`만 실제 0으로 둔다. [뉴욕 연은 ON RRP 안내](https://www.newyorkfed.org/markets/rrp_faq.html) |
+| **SOFR** | 공식 API의 `effectiveDate`를 관측일로 보존한다. 일간 이력과 주간 수요일 행에 같은 날짜로 결합한다. | 국채 레포시장 기준의 발표 일정에 따라 원천에 없는 날짜는 `null`이다. 다음 영업일에 발표된 금리를 발표일로 옮겨 적지 않는다. [뉴욕 연은 SOFR 발표 규칙](https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates) |
+| **EFFR** | 공식 API의 `effectiveDate`를 관측일로 보존하고 SOFR와 별도로 결합한다. | 뉴욕 연은의 EFFR 발표 일정에 따라 원천에 없는 날짜는 `null`이다. SOFR가 없더라도 EFFR가 있으면 그 값은 보존한다. [뉴욕 연은 EFFR 발표 규칙](https://www.newyorkfed.org/markets/reference-rates/additional-information-about-reference-rates) |
+| **IORB** | 연준 PRates XML의 `RESBM_N.D`에서 실제 적용일(`TIME_PERIOD`)과 금리를 읽는다. | 공휴일에 새 금리 표가 게시되지 않더라도 원천에 해당 적용일 값이 있으면 사용한다. 해당 날짜의 관측치가 없으면 `null`이며 직전 적용일 값을 복사하지 않는다. [연준 IORB 안내](https://www.federalreserve.gov/monetarypolicy/reserve-balances.htm) |
+| **Standing Repo** | `Repo`·`Overnight`·`Results` 거래만 운영 ID별로 중복 제거하고 시험성 소액 거래를 제외한 뒤 `operationDate`별 낙찰액을 합산한다. | 운영 기록이 없으면 `null`이다. 유효한 결과에 낙찰액 `0`이 명시된 경우에만 0이다. [뉴욕 연은 레포 운영 안내](https://www.newyorkfed.org/markets/domestic-market-operations/monetary-policy-implementation/repo-reverse-repo-agreements) |
+
+일간 이력 `fundingDaily`는 SOFR·EFFR·Standing Repo 중 **하나라도 원천 관측일이 있는 날짜**에만 행을 만든다. 그 행에서 없는 지표는 `null`이다. 세 원천 모두 없는 날짜에는 빈 행을 만들지 않는다. IORB는 이미 만들어진 행의 **같은 날짜** 값만 붙인다. `SOFR−IORB`와 `EFFR−IORB`는 각 날짜의 두 값이 모두 있을 때만 계산한다. 이 규칙은 주간 수요일 행에도 동일하게 적용된다. SOFR와 EFFR의 발표 달력이 실제로 다른 사례도 있으므로 하나의 미국 휴일 여부로 여섯 원천을 일괄 결측 처리하지 않는다. [뉴욕 연은 2026-07-03 발표 공지](https://www.newyorkfed.org/markets/opolicy/operating_policy_260618a)
+
+**입수 후 판정 순서:** (1) 여섯 공식 응답의 다운로드와 형식을 확인한다. (2) 각 원천의 날짜와 결과를 위 방식으로 정규화한다. (3) 공식 일정상 새 자료가 없는 날에는 정상적인 미갱신으로 기록한다. (4) 공식적으로 자료가 있어야 하는데 응답이 실패하거나 예상치 못한 과거 관측치가 사라졌다면 수집·검증 오류로 기록하고 이전 정상 버전을 유지한다. (5) 새 관측치나 과거 정정이 있으면 전체 JSON을 검증한 뒤 2~5절의 버전 전환 절차를 따른다. 조회 시각만 바뀐 경우는 새 데이터로 간주하지 않는다.
+
+**현재 구현과 운영 설계의 경계:** 현재 로컬 수집기에는 원천별 휴일 달력, 정상 휴장/예상 밖 누락을 자동 분류하는 기능, Altibase 버전 비교·저장 기능이 없다. 최신 H.4.1 수요일 행에 ON RRP 등 필수 입력이 없어 `netLiquidity`를 계산할 수 없으면 `validate()`가 실패하여 기존 `latest.json`을 보존한다. 나중에 다음 수요일 자료까지 들어와 해당 날짜가 과거 행이 되면 그 결측은 `null`로 남을 수 있다. 반면 로컬 수집이 **성공**하면 표시값이 같아도 수집 시각 등이 포함된 `latest.json`을 다시 쓴다. 따라서 위의 정상 미갱신 판정과 내용 비교 후에만 Altibase 버전을 바꾸는 절차는 **사내 운영 프로그램 구현 시 적용할 명세**이지, 현재 로컬 코드에 이미 구현된 기능은 아니다.
+
 ## 2. 변경 여부 판단
 
 1. 6개 원천을 받아 현재 v3와 같은 구조의 **화면용 JSON 한 벌**을 만든다. 주간 이력과 일간 이력, 관측일·발표일, 화면에 표시하는 출처 정보를 포함한다.
