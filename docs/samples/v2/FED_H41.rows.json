@@ -1,0 +1,275 @@
+[
+  {
+    "key1": "RESH4R_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESH4R_N.WW\treserveBalances\tUSD millions\tWednesday level\tLiabilities and Capital: Other Factors Draining Reserve Balances: Reserve balances with Federal Reserve Banks: Wednesday level\nD\t2026-10-21\t2969522\n"
+  },
+  {
+    "key1": "RESH4SCS_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESH4SCS_N.WW\tcentralBankLiquiditySwaps\tUSD millions\tWednesday level\tAssets: Central Bank Liquidity Swaps: Central bank liquidity swaps: Wednesday level\nD\t2026-10-21\t170\n"
+  },
+  {
+    "key1": "RESPPA_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPA_N.WW\ttotalAssets\tUSD millions\tWednesday level\tAssets: Total Assets: Total assets: Wednesday level\nD\t2026-10-21\t6753604\n"
+  },
+  {
+    "key1": "RESPPAAEH_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAAEH_N.WW\tmsFacilitiesNetPortfolio\tUSD millions\tWednesday level\tAssets: Liquidity and Credit Facilities: Net portfolio holdings of MS Facilities 2020 LLC (Main Street Lending Program) (Effective 2020-06-01): Wednesday level\nD\t2026-10-21\t871\n"
+  },
+  {
+    "key1": "RESPPAC_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAC_N.WW\tcoin\tUSD millions\tWednesday level\tAssets: Other: Coin: Wednesday level\nD\t2026-10-21\t1319\n"
+  },
+  {
+    "key1": "RESPPAG_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAG_N.WW\tgoldCertificate\tUSD millions\tWednesday level\tAssets: Other: Gold certificate account: Wednesday level\nD\t2026-10-21\t11037\n"
+  },
+  {
+    "key1": "RESPPAI_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAI_N.WW\titemsInCollection\tUSD millions\tWednesday level\tAssets: Other: Items in process of collection: Wednesday level\nD\t2026-10-21\t49\n"
+  },
+  {
+    "key1": "RESPPALD_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALD_N.WW\tloans\tUSD millions\tWednesday level\tAssets: Liquidity and Credit Facilities: Loans: Wednesday level\nD\t2026-10-21\t9199\n"
+  },
+  {
+    "key1": "RESPPALDC_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALDC_N.WW\totherCreditExtensions\tUSD millions\tWednesday level\tAssets: Liquidity and Credit Facilities: Loans: Other credit extensions: Wednesday level\nD\t2026-10-21\t0\n"
+  },
+  {
+    "key1": "RESPPALDP_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALDP_N.WW\tprimaryCredit\tUSD millions\tWednesday level\tAssets: Liquidity and Credit Facilities: Loans: Primary credit: Wednesday level\nD\t2026-10-21\t9169\n"
+  },
+  {
+    "key1": "RESPPALG_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALG_N.WW\tsecuritiesHeldOutright\tUSD millions\tWednesday level\tAssets: Securities Held Outright: Securities held outright: Wednesday level\nD\t2026-10-21\t6470178\n"
+  },
+  {
+    "key1": "RESPPALGAO_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGAO_N.WW\tagencyDebt\tUSD millions\tWednesday level\tAssets: Securities Held Outright: Federal agency debt securities: Wednesday level\nD\t2026-10-21\t2347\n"
+  },
+  {
+    "key1": "RESPPALGASMO_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGASMO_N.WW\tmortgageBackedSecurities\tUSD millions\tWednesday level\tAssets: Securities Held Outright: Mortgage-backed securities: Wednesday level\nD\t2026-10-21\t1895177\n"
+  },
+  {
+    "key1": "RESPPALGTR_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGTR_N.WW\tassetRepurchaseAgreements\tUSD millions\tWednesday level\tAssets: Other: Repurchase agreements: Wednesday level\nD\t2026-10-21\t67\n"
+  },
+  {
+    "key1": "RESPPALGUO_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGUO_N.WW\ttreasurySecurities\tUSD millions\tWednesday level\tAssets: Securities Held Outright: U.S. Treasury securities: Wednesday level\nD\t2026-10-21\t4572654\n"
+  },
+  {
+    "key1": "RESPPALGUOB_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGUOB_N.WW\tbills\tUSD millions\tWednesday level\tAssets: Securities Held Outright: U.S. Treasury securities: Bills: Wednesday level\nD\t2026-10-21\t567875\n"
+  },
+  {
+    "key1": "RESPPALGUOMC_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGUOMC_N.WW\tinflationCompensation\tUSD millions\tWednesday level\tAssets: Securities Held Outright: U.S. Treasury securities: Inflation compensation: Wednesday level\nD\t2026-10-21\t106336\n"
+  },
+  {
+    "key1": "RESPPALGUOMI_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGUOMI_N.WW\ttipsPrincipal\tUSD millions\tWednesday level\tAssets: Securities Held Outright: U.S. Treasury securities: Notes and bonds, inflation-indexed: Wednesday level\nD\t2026-10-21\t277656\n"
+  },
+  {
+    "key1": "RESPPALGUOMN_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALGUOMN_N.WW\tnominalNotesBonds\tUSD millions\tWednesday level\tAssets: Securities Held Outright: U.S. Treasury securities: Notes and bonds, nominal: Wednesday level\nD\t2026-10-21\t3620788\n"
+  },
+  {
+    "key1": "RESPPALSD_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALSD_N.WW\tunamortizedDiscounts\tUSD millions\tWednesday level\tAssets: Unamortized discounts on securities held outright: Wednesday level\nD\t2026-10-21\t-26309\n"
+  },
+  {
+    "key1": "RESPPALSP_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPALSP_N.WW\tunamortizedPremiums\tUSD millions\tWednesday level\tAssets: Unamortized premiums on securities held outright: Wednesday level\nD\t2026-10-21\t207788\n"
+  },
+  {
+    "key1": "RESPPAO_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAO_N.WW\totherAssetsReported\tUSD millions\tWednesday level\tAssets: Other: Other Assets, Consolidated Table: Wednesday level\nD\t2026-10-21\t44379\n"
+  },
+  {
+    "key1": "RESPPAOF_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAOF_N.WW\tforeignCurrencyAssets\tUSD millions\tWednesday level\tAssets: Other Factors Supplying Reserve Balances: Foreign currency denominated assets: Wednesday level\nD\t2026-10-21\t18959\n"
+  },
+  {
+    "key1": "RESPPAP_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAP_N.WW\tbankPremises\tUSD millions\tWednesday level\tAssets: Other: Bank premises: Wednesday level\nD\t2026-10-21\t697\n"
+  },
+  {
+    "key1": "RESPPAS_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPAS_N.WW\tsdrCertificate\tUSD millions\tWednesday level\tAssets: Other: Special drawing rights certificate account: Wednesday level\nD\t2026-10-21\t15200\n"
+  },
+  {
+    "key1": "RESPPL_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPL_N.WW\ttotalLiabilitiesAndCapital\tUSD millions\tWednesday level\tLiabilities and Capital: Total Liabilities and Capital: Total Liabilities and Capital: Wednesday level\nD\t2026-10-21\t6753604\n"
+  },
+  {
+    "key1": "RESPPLC_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLC_N.WW\ttotalCapital\tUSD millions\tWednesday level\tLiabilities and Capital: Capital: Total capital: Wednesday level\nD\t2026-10-21\t47718\n"
+  },
+  {
+    "key1": "RESPPLL_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLL_N.WW\ttotalLiabilities\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Total liabilities: Wednesday level\nD\t2026-10-21\t6705887\n"
+  },
+  {
+    "key1": "RESPPLLC_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLC_N.WW\tdeferredAvailability\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Deferred availability cash items: Wednesday level\nD\t2026-10-21\t239\n"
+  },
+  {
+    "key1": "RESPPLLDA_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLDA_N.WW\ttermDeposits\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Deposits with F.R. Banks, other than reserve balances: Term deposits held by depository institutions: Wednesday level\nD\t2026-10-21\t0\n"
+  },
+  {
+    "key1": "RESPPLLDF_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLDF_N.WW\tforeignOfficialDeposits\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Deposits with F.R. Banks, other than reserve balances: Foreign official: Wednesday level\nD\t2026-10-21\t9476\n"
+  },
+  {
+    "key1": "RESPPLLDO_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLDO_N.WW\totherDeposits\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Deposits: Other: Wednesday level\nD\t2026-10-21\t238673\n"
+  },
+  {
+    "key1": "RESPPLLDT_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLDT_N.WW\ttreasuryGeneralAccount\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Deposits with F.R. Banks, other than reserve balances: U.S. Treasury, General Account: Wednesday level\nD\t2026-10-21\t945153\n"
+  },
+  {
+    "key1": "RESPPLLN_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLN_N.WW\tfederalReserveNotes\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Federal Reserve notes, net of F.R. Bank holdings: Wednesday level\nD\t2026-10-21\t2433335\n"
+  },
+  {
+    "key1": "RESPPLLO_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLO_N.WW\totherLiabilitiesAccrued\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Other liabilities and accrued dividends (Includes the liability for earnings remittances due to the U.S. Treasury): Wednesday level\nD\t2026-10-21\t-224594\n"
+  },
+  {
+    "key1": "RESPPLLR_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLR_N.WW\treverseRepoTotal\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Reverse repurchase agreements: Wednesday level\nD\t2026-10-21\t334083\n"
+  },
+  {
+    "key1": "RESPPLLRD_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLRD_N.WW\treverseRepoOthers\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Reverse repurchase agreements: Others: Wednesday level\nD\t2026-10-21\t237\n"
+  },
+  {
+    "key1": "RESPPLLRF_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESPPLLRF_N.WW\treverseRepoForeignOfficial\tUSD millions\tWednesday level\tLiabilities and Capital: Liabilities: Reverse repurchase agreements: Foreign official and international accounts: Wednesday level\nD\t2026-10-21\t333846\n"
+  },
+  {
+    "key1": "RESTBC_N.WW",
+    "key2": "2026",
+    "key3": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tH41\thttps://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip\t2026-11-03T05:03:02Z\t2026-10-29\tRESTBC_N.WW\tcurrencyInCirculation\tUSD millions\tWednesday level\tLiabilities and Capital: Other Factors Draining Reserve Balances: Currency in circulation: Wednesday level\nD\t2026-10-21\t2485182\n"
+  }
+]

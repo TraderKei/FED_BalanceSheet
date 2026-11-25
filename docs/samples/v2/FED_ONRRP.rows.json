@@ -1,0 +1,8 @@
+[
+  {
+    "key1": "RP 102126 26",
+    "key2": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tONRRP\thttps://markets.newyorkfed.org/api/rp/results/search.json\t2026-11-03T05:03:02Z\tUSD\nD\tRP 102126 26\t2026-10-21\t2026-10-21\tReverse Repo\tOvernight\tResults\t237000000\t\n"
+  }
+]

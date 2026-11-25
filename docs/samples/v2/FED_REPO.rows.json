@@ -1,0 +1,14 @@
+[
+  {
+    "key1": "RP 102126 25",
+    "key2": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tREPO\thttps://markets.newyorkfed.org/api/rp/results/search.json\t2026-11-03T05:03:02Z\tUSD\nD\tRP 102126 25\t2026-10-21\t2026-10-21\tRepo\tOvernight\tResults\t0\t\n"
+  },
+  {
+    "key1": "RP 102126 27",
+    "key2": 1,
+    "chunk_no": 1,
+    "text": "M\tFED-TEXT-2\tREPO\thttps://markets.newyorkfed.org/api/rp/results/search.json\t2026-11-03T05:03:02Z\tUSD\nD\tRP 102126 27\t2026-10-21\t2026-10-21\tRepo\tOvernight\tResults\t0\t\n"
+  }
+]

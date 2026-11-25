@@ -1,0 +1,78 @@
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESH4R_N.WW	reserveBalances	USD millions	Wednesday level	Liabilities and Capital: Other Factors Draining Reserve Balances: Reserve balances with Federal Reserve Banks: Wednesday level
+D	2026-10-21	2969522
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESH4SCS_N.WW	centralBankLiquiditySwaps	USD millions	Wednesday level	Assets: Central Bank Liquidity Swaps: Central bank liquidity swaps: Wednesday level
+D	2026-10-21	170
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPA_N.WW	totalAssets	USD millions	Wednesday level	Assets: Total Assets: Total assets: Wednesday level
+D	2026-10-21	6753604
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAAEH_N.WW	msFacilitiesNetPortfolio	USD millions	Wednesday level	Assets: Liquidity and Credit Facilities: Net portfolio holdings of MS Facilities 2020 LLC (Main Street Lending Program) (Effective 2020-06-01): Wednesday level
+D	2026-10-21	871
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAC_N.WW	coin	USD millions	Wednesday level	Assets: Other: Coin: Wednesday level
+D	2026-10-21	1319
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAG_N.WW	goldCertificate	USD millions	Wednesday level	Assets: Other: Gold certificate account: Wednesday level
+D	2026-10-21	11037
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAI_N.WW	itemsInCollection	USD millions	Wednesday level	Assets: Other: Items in process of collection: Wednesday level
+D	2026-10-21	49
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALD_N.WW	loans	USD millions	Wednesday level	Assets: Liquidity and Credit Facilities: Loans: Wednesday level
+D	2026-10-21	9199
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALDC_N.WW	otherCreditExtensions	USD millions	Wednesday level	Assets: Liquidity and Credit Facilities: Loans: Other credit extensions: Wednesday level
+D	2026-10-21	0
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALDP_N.WW	primaryCredit	USD millions	Wednesday level	Assets: Liquidity and Credit Facilities: Loans: Primary credit: Wednesday level
+D	2026-10-21	9169
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALG_N.WW	securitiesHeldOutright	USD millions	Wednesday level	Assets: Securities Held Outright: Securities held outright: Wednesday level
+D	2026-10-21	6470178
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGAO_N.WW	agencyDebt	USD millions	Wednesday level	Assets: Securities Held Outright: Federal agency debt securities: Wednesday level
+D	2026-10-21	2347
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGASMO_N.WW	mortgageBackedSecurities	USD millions	Wednesday level	Assets: Securities Held Outright: Mortgage-backed securities: Wednesday level
+D	2026-10-21	1895177
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGTR_N.WW	assetRepurchaseAgreements	USD millions	Wednesday level	Assets: Other: Repurchase agreements: Wednesday level
+D	2026-10-21	67
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGUO_N.WW	treasurySecurities	USD millions	Wednesday level	Assets: Securities Held Outright: U.S. Treasury securities: Wednesday level
+D	2026-10-21	4572654
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGUOB_N.WW	bills	USD millions	Wednesday level	Assets: Securities Held Outright: U.S. Treasury securities: Bills: Wednesday level
+D	2026-10-21	567875
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGUOMC_N.WW	inflationCompensation	USD millions	Wednesday level	Assets: Securities Held Outright: U.S. Treasury securities: Inflation compensation: Wednesday level
+D	2026-10-21	106336
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGUOMI_N.WW	tipsPrincipal	USD millions	Wednesday level	Assets: Securities Held Outright: U.S. Treasury securities: Notes and bonds, inflation-indexed: Wednesday level
+D	2026-10-21	277656
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALGUOMN_N.WW	nominalNotesBonds	USD millions	Wednesday level	Assets: Securities Held Outright: U.S. Treasury securities: Notes and bonds, nominal: Wednesday level
+D	2026-10-21	3620788
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALSD_N.WW	unamortizedDiscounts	USD millions	Wednesday level	Assets: Unamortized discounts on securities held outright: Wednesday level
+D	2026-10-21	-26309
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPALSP_N.WW	unamortizedPremiums	USD millions	Wednesday level	Assets: Unamortized premiums on securities held outright: Wednesday level
+D	2026-10-21	207788
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAO_N.WW	otherAssetsReported	USD millions	Wednesday level	Assets: Other: Other Assets, Consolidated Table: Wednesday level
+D	2026-10-21	44379
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAOF_N.WW	foreignCurrencyAssets	USD millions	Wednesday level	Assets: Other Factors Supplying Reserve Balances: Foreign currency denominated assets: Wednesday level
+D	2026-10-21	18959
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAP_N.WW	bankPremises	USD millions	Wednesday level	Assets: Other: Bank premises: Wednesday level
+D	2026-10-21	697
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPAS_N.WW	sdrCertificate	USD millions	Wednesday level	Assets: Other: Special drawing rights certificate account: Wednesday level
+D	2026-10-21	15200
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPL_N.WW	totalLiabilitiesAndCapital	USD millions	Wednesday level	Liabilities and Capital: Total Liabilities and Capital: Total Liabilities and Capital: Wednesday level
+D	2026-10-21	6753604
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLC_N.WW	totalCapital	USD millions	Wednesday level	Liabilities and Capital: Capital: Total capital: Wednesday level
+D	2026-10-21	47718
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLL_N.WW	totalLiabilities	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Total liabilities: Wednesday level
+D	2026-10-21	6705887
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLC_N.WW	deferredAvailability	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Deferred availability cash items: Wednesday level
+D	2026-10-21	239
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLDA_N.WW	termDeposits	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Deposits with F.R. Banks, other than reserve balances: Term deposits held by depository institutions: Wednesday level
+D	2026-10-21	0
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLDF_N.WW	foreignOfficialDeposits	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Deposits with F.R. Banks, other than reserve balances: Foreign official: Wednesday level
+D	2026-10-21	9476
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLDO_N.WW	otherDeposits	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Deposits: Other: Wednesday level
+D	2026-10-21	238673
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLDT_N.WW	treasuryGeneralAccount	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Deposits with F.R. Banks, other than reserve balances: U.S. Treasury, General Account: Wednesday level
+D	2026-10-21	945153
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLN_N.WW	federalReserveNotes	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Federal Reserve notes, net of F.R. Bank holdings: Wednesday level
+D	2026-10-21	2433335
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLO_N.WW	otherLiabilitiesAccrued	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Other liabilities and accrued dividends (Includes the liability for earnings remittances due to the U.S. Treasury): Wednesday level
+D	2026-10-21	-224594
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLR_N.WW	reverseRepoTotal	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Reverse repurchase agreements: Wednesday level
+D	2026-10-21	334083
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLRD_N.WW	reverseRepoOthers	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Reverse repurchase agreements: Others: Wednesday level
+D	2026-10-21	237
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESPPLLRF_N.WW	reverseRepoForeignOfficial	USD millions	Wednesday level	Liabilities and Capital: Liabilities: Reverse repurchase agreements: Foreign official and international accounts: Wednesday level
+D	2026-10-21	333846
+M	FED-TEXT-2	H41	https://www.federalreserve.gov/releases/h41/data/FRB_h41_xml.zip	2026-11-03T05:03:02Z	2026-10-29	RESTBC_N.WW	currencyInCirculation	USD millions	Wednesday level	Liabilities and Capital: Other Factors Draining Reserve Balances: Currency in circulation: Wednesday level
+D	2026-10-21	2485182
